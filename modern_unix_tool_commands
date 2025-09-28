@@ -1,0 +1,15 @@
+# Modern Unix tools
+
+[`bat` for `cat`](https://github.com/sharkdp/bat)
+
+[`delta` for `git diff`](https://github.com/dandavison/delta)
+
+[`eza` for `ls`](https://github.com/eza-community/eza)
+
+[`ripgrep` for `grep`](https://github.com/BurntSushi/ripgrep)
+
+[`cheat`](https://github.com/cheat/cheat)
+
+[`tldr`](https://github.com/tldr-pages/tldr)
+
+[`glances` replacement for`htop/btop`](https://github.com/nicolargo/glances)

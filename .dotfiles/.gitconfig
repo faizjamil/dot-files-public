@@ -1,0 +1,14 @@
+[user]
+	email = 6825546+faizjamil@users.noreply.github.com
+	name = Faizan Jamil
+[core]
+	# after installing vscode, 'code' command should be in PATH
+	editor = code --wait
+
+# [core]
+# 	# else use nano
+# 	editor = nano
+[diff]
+	conflictStyle = zdiff3
+[pull]
+	rebase = false

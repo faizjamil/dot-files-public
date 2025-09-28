@@ -1,0 +1,39 @@
+# copy of https://github.com/newsdaycom/dev/blob/master/osx_setup/dev_setup
+#!/bin/bash
+
+## end setup on fail
+set -e
+
+echo "Installing Homebrew"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+if [[ "$(uname -m)" == "arm64" ]]; then
+    echo "Arm64 detected, adding homebrew to path"
+    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+clear
+
+echo "Installing awscli, nodejs, python, cask"
+brew install --force awscli node@18 python cask
+brew upgrade --force awscli node@18 python cask
+echo 'export PATH=/usr/local/opt/node@18/bin:$PATH' >> ~/.zprofile
+source ~/.zprofile
+
+clear
+echo "Installing yarn"
+sudo npm i -g yarn
+
+echo "Install mysqlworkbench, firefox, chrome, sublime text, spotify, cyberduck, vscode, docker"
+brew install --cask --force mysqlworkbench firefox google-chrome sublime-text spotify slack postman cyberduck visual-studio-code docker
+brew upgrade --cask --force mysqlworkbench firefox google-chrome sublime-text spotify slack postman cyberduck visual-studio-code docker
+clear
+
+brew doctor
+
+echo "Installing Oh My ZSH"
+curl -L http://install.ohmyz.sh | sh
+clear
+
+echo "Install complete!"

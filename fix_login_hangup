@@ -1,0 +1,2 @@
+#sudo dnf list --installed | grep "vnc"
+echo "uninstall all VNC-related packages if not using"

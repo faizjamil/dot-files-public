@@ -1,0 +1,206 @@
+[/]
+desklet-snap-interval=25
+enabled-applets=['panel1:left:0:menu@cinnamon.org:0', 'panel1:left:2:grouped-window-list@cinnamon.org:2', 'panel1:right:0:keyboard@cinnamon.org:3', 'panel1:right:1:systray@cinnamon.org:4', 'panel1:right:2:xapp-status@cinnamon.org:5', 'panel1:right:3:notifications@cinnamon.org:6', 'panel1:right:4:printers@cinnamon.org:7', 'panel1:right:5:removable-drives@cinnamon.org:8', 'panel1:right:6:network@cinnamon.org:9', 'panel1:right:7:power@cinnamon.org:10', 'panel1:right:8:calendar@cinnamon.org:11', 'panel1:right:9:sound@cinnamon.org:12']
+enabled-desklets=@as []
+enabled-extensions=@as []
+# remove org.mageia.dnfdragora.desktop if not on fedora
+favorite-apps=['firefox.desktop', 'org.mageia.dnfdragora.desktop', 'cinnamon-settings.desktop', 'org.gnome.Terminal.desktop', 'nemo.desktop', 'slack.desktop']
+hotcorner-layout=['expo:false:0', 'scale:false:0', 'scale:false:0', 'desktop:false:0']
+next-applet-id=13
+panel-edit-mode=false
+panel-zone-icon-sizes='[{"panelId": 1, "left": -1, "center": 0, "right": 24}]'
+panel-zone-symbolic-icon-sizes='[{"panelId": 1, "left": 28, "center": 28, "right": 32}]'
+panel-zone-text-sizes='[{"panelId": 1, "left": 0.0, "center": 6.0, "right": 0.0}]'
+panels-autohide=['1:false']
+panels-height=['1:50']
+
+[cinnamon-session]
+quit-time-delay=60
+
+[desktop/a11y/applications]
+screen-keyboard-enabled=false
+screen-magnifier-enabled=true
+screen-reader-enabled=false
+
+[desktop/a11y/keyboard]
+bouncekeys-delay=300
+mousekeys-accel-time=300
+mousekeys-init-delay=300
+mousekeys-max-speed=10
+slowkeys-delay=300
+
+[desktop/a11y/magnifier]
+mag-factor=1.0
+
+[desktop/a11y/mouse]
+dwell-click-enabled=false
+dwell-threshold=10
+dwell-time=1.2
+secondary-click-enabled=false
+secondary-click-time=1.2
+
+[desktop/applications/calculator]
+exec='gnome-calculator'
+
+[desktop/applications/terminal]
+exec='terminator'
+exec-arg='--'
+
+[desktop/interface]
+clock-show-date=false
+cursor-blink-time=1200
+cursor-size=50
+cursor-theme='Paper'
+font-name='Noto Sans 16'
+gtk-im-module='gtk-im-context-simple:xim'
+gtk-theme='Mint-Y-Dark-Aqua'
+gtk-theme-backup='Mint-Y-Dark-Aqua'
+icon-theme='Mint-Y-Aqua'
+icon-theme-backup='Mint-Y-Aqua'
+scaling-factor=uint32 0
+text-scaling-factor=1.2
+toolkit-accessibility=false
+
+[desktop/keybindings]
+custom-list=['__dummy__', 'custom0']
+looking-glass-keybinding=@as []
+magnifier-zoom-in=['<Super>equal']
+magnifier-zoom-out=['<Super>minus']
+show-desklets=@as []
+
+[desktop/keybindings/custom-keybindings/custom0]
+binding=['<Primary><Alt>t']
+command='terminator'
+name='terminator'
+
+[desktop/keybindings/media-keys]
+area-screenshot=['<Shift><Super>s']
+decrease-text-size=['<Primary><Shift>KP_Subtract']
+increase-text-size=['<Primary><Shift>KP_Add']
+screensaver=['<Super>l', 'XF86ScreenSaver']
+terminal=@as []
+
+[desktop/keybindings/wm]
+activate-window-menu=@as []
+maximize=['<Super>Up']
+minimize=['<Super>Down']
+move-to-monitor-down=@as []
+move-to-monitor-left=@as []
+move-to-monitor-right=@as []
+move-to-monitor-up=@as []
+move-to-side-e=@as []
+move-to-side-w=@as []
+move-to-workspace-left=@as []
+move-to-workspace-right=@as []
+panel-run-dialog=@as []
+push-snap-left=['<Super>Left']
+push-snap-right=['<Super>Right']
+push-tile-down=@as []
+push-tile-left=@as []
+push-tile-right=@as []
+push-tile-up=@as []
+switch-to-workspace-down=['<Super>Tab']
+switch-to-workspace-left=@as []
+switch-to-workspace-right=@as []
+switch-windows-backward=['<Shift><Alt>Tab']
+toggle-maximized=@as []
+unmaximize=@as []
+
+[desktop/media-handling]
+autorun-never=true
+autorun-x-content-ignore=['x-content/image-dcf', 'x-content/unix-software', 'x-content/audio-player', 'x-content/video-dvd', 'x-content/audio-cdda']
+autorun-x-content-open-folder=@as []
+autorun-x-content-start-app=@as []
+
+[desktop/peripherals/keyboard]
+delay=uint32 500
+numlock-state=false
+repeat-interval=uint32 30
+
+[desktop/peripherals/mouse]
+accel-profile='default'
+double-click=400
+drag-threshold=8
+locate-pointer=false
+speed=-0.59999999999999998
+
+[desktop/peripherals/touchpad]
+click-method='none'
+edge-scrolling-enabled=false
+natural-scroll=true
+send-events='disabled-on-external-mouse'
+speed=0.0
+tap-to-click=false
+two-finger-scrolling-enabled=true
+
+[desktop/privacy]
+remember-recent-files=false
+
+[desktop/sound]
+event-sounds=false
+volume-sound-enabled=false
+
+[desktop/wm/preferences]
+mouse-button-zoom-modifier=''
+theme='Mint-Y-Dark'
+theme-backup='Mint-Y-Dark'
+titlebar-font='Noto Sans Bold 12'
+
+[gestures]
+pinch-percent-threshold=uint32 40
+swipe-down-2='PUSH_TILE_DOWN::end'
+swipe-down-3='TOGGLE_OVERVIEW::end'
+swipe-down-4='VOLUME_DOWN::end'
+swipe-left-2='PUSH_TILE_LEFT::end'
+swipe-left-3='WORKSPACE_NEXT::end'
+swipe-left-4='WINDOW_WORKSPACE_PREVIOUS::end'
+swipe-percent-threshold=uint32 60
+swipe-right-2='PUSH_TILE_RIGHT::end'
+swipe-right-3='WORKSPACE_PREVIOUS::end'
+swipe-right-4='WINDOW_WORKSPACE_NEXT::end'
+swipe-up-2='PUSH_TILE_UP::end'
+swipe-up-3='TOGGLE_EXPO::end'
+swipe-up-4='VOLUME_UP::end'
+tap-3='MEDIA_PLAY_PAUSE::end'
+
+[launcher]
+check-frequency=300
+memory-limit=2048
+
+[muffin]
+unredirect-fullscreen-windows=true
+
+[settings-daemon/peripherals/keyboard]
+numlock-state='off'
+
+[settings-daemon/plugins/color]
+night-light-last-coordinates=(40.4251, -74.002300000000005)
+
+[settings-daemon/plugins/power]
+idle-brightness=30
+lid-close-ac-action='nothing'
+lid-close-battery-action='suspend'
+sleep-display-ac=0
+sleep-display-battery=1800
+sleep-inactive-ac-timeout=0
+sleep-inactive-battery-timeout=0
+
+[settings-daemon/plugins/xsettings]
+hinting='slight'
+
+[sounds]
+close-enabled=false
+login-enabled=false
+logout-enabled=false
+map-enabled=false
+maximize-enabled=false
+minimize-enabled=false
+notification-enabled=false
+plug-enabled=false
+switch-enabled=false
+tile-enabled=false
+unmaximize-enabled=false
+unplug-enabled=false
+
+[theme]
+name='Mint-Y-Dark-Aqua'
