@@ -8,7 +8,7 @@ CONFIG_FILE=$CONFIG_PATH/config
 
 mkdir -p $CONFIG_PATH
 
-ssh-keygen -t rsa -f ~/.ssh/$KEY_NAME -q -P ""
+ssh-keygen -t ed25519 -f ~/.ssh/$KEY_NAME -q -P ""
 
 echo "Host github.com
 	User git

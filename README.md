@@ -29,10 +29,10 @@ Example using dnf:
 sudo dnf install git curl
 ```
 
-2. Clone the repo such that the directory you are executing the bootstrap script from is ~/repos/dot-files. You can use the command below
+2. Clone the repo such that the directory you are executing the bootstrap script from is `~/repos/dot-files-public`. You can use the command below
 
 ```sh
-git clone https://github.com/faizjamil/dot-files.git ~/repos/dot-files
+git clone https://github.com/faizjamil/dot-files-public.git ~/repos/dot-files-public
 ```
 
 3. Execute the script
@@ -49,6 +49,8 @@ chsh -s $(which zsh)
 
 From the [`zsh` repo](https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH)
 > Note that this will not work if Zsh is not in your authorized shells list (/etc/shells) or if you don't have permission to use chsh. If that's the case you'll need to use a different procedure.
+
+5. [Generate SSH Key and add it to Github account and `ssh-agent`](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?platform=linux)
 
 5. Run the following command in `zsh` for some fun.
 
