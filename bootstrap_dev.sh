@@ -48,16 +48,47 @@ fi
 DISTRO=$(checkDistro)
 if [[ ! $DISTRO = "ubuntu_wsl" ]]
 then
-  PACKAGES_TO_INSTALL+=(code vlc steam filezilla keepassxc qbittorrent terminator)
+  PACKAGES_TO_INSTALL+=(code vlc steam filezilla keepassxc qbittorrent terminator mullvad-vpn)
   if [[ $DISTRO = "ubuntu" || $DISTRO = "debian" ]]
   then 
     PACKAGES_TO_INSTALL+=(smplayer smplayer-themes redshift fonts-liberation libdvd-pkg ttf-mscorefonts-installer)
+    echo "Adding repo for VS Code"
     echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
+    echo "VS Code repo added"
+    echo "Adding repo for Mullvad"
+    
+    # Download the Mullvad signing key
+    sudo curl -fsSLo /usr/share/keyrings/mullvad-keyring.asc https://repository.mullvad.net/deb/mullvad-keyring.asc
+
+    # Add the Mullvad repository server to apt
+    echo "deb [signed-by=/usr/share/keyrings/mullvad-keyring.asc arch=$( dpkg --print-architecture )] https://repository.mullvad.net/deb/stable stable main" | sudo tee /etc/apt/sources.list.d/mullvad.list
+    echo "Mullvad repo added"
+
+    sudo apt-get update
+    echo "Upgrading existing packages"
+    sudo apt-get -y upgrade
+    echo "Existing packages upgraded"
+
+    for PACKAGE in "${PACKAGES_TO_INSTALL[@]}"
+    do 
+        echo Installing ${PACKAGE}  
+        sudo apt-get -y install  ${PACKAGE}
+    done
+    # install FTB APP
+    # deb url: https://piston.feed-the-beast.com/app/ftb-app-linux-1.28.2-amd64.deb
+    # install ATLauncher
+    cd /tmp
+    echo "Installing ATLauncher"
+    wget -O atlauncher.deb https://atlauncher.com/download/deb
+    sudo apt-get -y install ./atlauncher.deb
+    echo "ATLauncher installed"
+    echo "Installing FTB App"
+    wget -P "/tmp/" -O ftb.deb https://piston.feed-the-beast.com/app/ftb-app-linux-1.28.2-amd64.deb
+    sudo apt-get -y install ./ftb.deb
+    echo "FTB App installed"
   elif [[ $DISTRO = "fedora" ]]
   then
-    PACKAGES_TO_INSTALL+=(util-linux-user smplayer.x86_64 smplayer-themes.x86_64 redshift-gtk liberation-fonts libdvdcss cabextract xorg-x11-font-utils fontconfig)
-    echo "Upgrading packages..."
-    sudo dnf -y upgrade --refresh
+    PACKAGES_TO_INSTALL+=(util-linux-user smplayer.x86_64 smplayer-themes.x86_64 redshift-gtk liberation-fonts libdvdcss cabextract xorg-x11-font-utils fontconfig mullvad-vpn)
     
     echo "Enabling the Free and Nonfree RPM Fusion repos"
     sudo dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
@@ -92,8 +123,6 @@ then
     echo "Installing ATLauncher"
     sudo dnf -y install https://atlauncher.com/download/rpm
     echo "Installed ATLauncher"
-    echo "To install overGrive (Google Drive client) go to https://www.overgrive.com/"
-    read -n 1 -p "Press any key once that's complete"
     echo "Installing packages for gstreamer applications"
     sudo dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel
     sudo dnf install -y lame\* --exclude=lame-devel
@@ -113,6 +142,10 @@ then
     sudo dnf install -y https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
     echo "Microsoft fonts installed"
   fi
+  cd ~/repos/dot-files-public
+
+  echo "To install overGrive (Google Drive client) go to https://www.overgrive.com/"
+  read -n 1 -p "Press any key once that's complete"
   echo "Adding Flathub remote to Flatpak"
   flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   echo "Flathub remote added to Flatpak"
@@ -125,8 +158,20 @@ then
   echo "Installing Discord from flatpak"
   flatpak install flathub com.discordapp.Discord
   echo "Discord flatpak installed"
+else
+    # assume is ubuntu WSL
+    sudo apt-get update
+    echo "Upgrading existing packages"
+    sudo apt-get -y upgrade
+    for PACKAGE in "${PACKAGES_TO_INSTALL[@]}"
+    do 
+        echo Installing ${PACKAGE}  
+        sudo apt-get -y install  ${PACKAGE}
+    done
 fi
-
+echo "Installing deno"
+curl -fsSL https://deno.land/install.sh | bash -s -- --yes --no-modify-path
+echo "Deno installed"
 echo "Installing oh-my-zsh and removing .zshrc from home directory"
 rm ~/.zshrc
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
@@ -135,14 +180,44 @@ echo "Installing fnm"
 # installs fnm 
 curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
 echo "fnm installed"
-
-echo $(checkDistro)
-
-if [[ $(checkDistro) = "ubuntu_wsl" ]]
+# if dnf is on system
+if [[ $DISTRO = "ubuntu_wsl" || $DISTRO = "ubuntu" ]]
 then
-  echo "distro is Ubuntu on WSL"
+  ln -s ~/repos/dot-files-public/.dotfiles/.zshrc_apt ~/.zshrc
+  echo "symlink to .zshrc created"
+  source ~/.zshrc
 fi
-for PACKAGE in "${PACKAGES_TO_INSTALL[@]}"
-do 
-    echo Installing ${PACKAGE}  
-done
+elif [[ $DISTRO = "fedora" ]]
+then
+  ln -s ~/repos/dot-files-public/.dotfiles/.zshrc_dnf ~/.zshrc
+  echo "symlink to .zshrc created"
+  source ~/.zshrc
+else 
+  echo "NOT ON UBUNTU OR FEDORA BASED SYSTEM, NOT SYMLINKING ZSHRC"
+fi
+
+# install latest node LTS version
+echo "Installing latest node.js LTS version"
+fnm install --lts
+echo "Node LTS installed"
+
+# create symlink to .gitconfig and .zshrc
+echo "creating symlink to .gitconfig"
+
+# ln -s ~/repos/dot-files/.dotfiles/.zshrc_apt ~/.zshrc
+ln -s ~/repos/dot-files-public/.dotfiles/.gitconfig ~/.gitconfig
+echo "creating symlinks for configs"
+ln -s ~/repos/dot-files-public/.config/redshift ~/.config/redshift
+ln -s ~/repos/dot-files-public/.config/terminator ~/.config/terminator
+echo "symlinks created"
+echo "Restoring Cinnamon config(s)"
+dconf load /org/cinnamon/ < /cinnamon_config/dconf-settings
+echo "Cinnamon config(s) restored"
+chmod -R 700 ~/.ssh
+echo ".ssh directory perms set"
+# echo "Make linux use local time"
+# timedatectl set-local-rtc 1 --adjust-system-clock
+# echo "Linux uses local time, time should be fine on windows and linux now"
+# TO UNDO THE ABOVE: timedatectl set-local-rtc 0 --adjust-system-clock
+echo "Setup complete, enjoy your system :)"
+echo "Make sure to reboot your system!"
