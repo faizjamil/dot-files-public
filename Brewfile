@@ -54,7 +54,7 @@ cask "insomnia"
 cask "keepassxc"
 cask "mysqlworkbench"
 # MongoDB management tool
-#cask "robo-3t"
+cask "studio-3t-community"
 # Team communication and collaboration software
 cask "slack"
 # Open-source code editor
