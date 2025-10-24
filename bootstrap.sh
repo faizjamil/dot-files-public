@@ -177,14 +177,11 @@ else
         sudo apt-get -y install  ${PACKAGE}
     done
 fi
-echo "Installing deno"
-curl -fsSL https://deno.land/install.sh | bash -s -- --yes --no-modify-path
-echo "Deno installed"
+
 echo "Installing oh-my-zsh and removing .zshrc from home directory"
 rm ~/.zshrc
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
 echo "oh-my-zsh installed"
-echo "Installing fnm"
 
 # if dnf is on system
 if [[ $DISTRO = "ubuntu_wsl" || $DISTRO = "ubuntu" ]]
@@ -198,7 +195,11 @@ then
 else 
   echo "NOT ON UBUNTU OR FEDORA BASED SYSTEM, NOT SYMLINKING ZSHRC"
 fi
+echo "Installing deno"
+curl -fsSL https://deno.land/install.sh | bash -s -- --yes --no-modify-path
+echo "Deno installed"
 # installs fnm 
+echo "Installing fnm"
 curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
 echo "fnm installed"
 # install latest node LTS version
