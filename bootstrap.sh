@@ -152,17 +152,20 @@ then
   echo "To install overGrive (Google Drive client) go to https://www.overgrive.com/"
   read -n 1 -p "Press any key once that's complete"
   echo "Adding Flathub remote to Flatpak"
-  flatpak remote-add -y --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   echo "Flathub remote added to Flatpak"
   echo "Installing Zoom from flatpak"
-  flatpak install -y flathub us.zoom.Zoom
+  flatpak install -y --noninteractive flathub us.zoom.Zoom
   echo "Zoom flatpak installed"
   echo "Installing Slack from flathub"
-  flatpak install -y flathub com.slack.Slack
+  flatpak install -y --noninteractive flathub com.slack.Slack
   echo "Slack flatpak installed"
   echo "Installing Discord from flatpak"
-  flatpak install -y flathub com.discordapp.Discord
+  flatpak install -y --noninteractive flathub com.discordapp.Discord
   echo "Discord flatpak installed"
+  echo "Installing Flatseal"
+  flatpak install -y --noninteractive flathub com.github.tchx84.Flatseal
+  echo "Flatseal installed"
 else
     # assume is ubuntu WSL
     sudo apt-get update
