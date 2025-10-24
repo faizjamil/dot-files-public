@@ -51,7 +51,7 @@ then
   PACKAGES_TO_INSTALL+=(code vlc steam filezilla keepassxc qbittorrent terminator mullvad-vpn)
   if [[ $DISTRO = "ubuntu" || $DISTRO = "debian" ]]
   then 
-    PACKAGES_TO_INSTALL+=(smplayer smplayer-themes redshift fonts-liberation libdvd-pkg ttf-mscorefonts-installer)
+    PACKAGES_TO_INSTALL+=(smplayer smplayer-themes redshift fonts-liberation ttf-mscorefonts-installer)
     echo "Adding repo for VS Code"
     echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
     echo "VS Code repo added"
@@ -91,9 +91,13 @@ then
     wget -P "/tmp/" -O ftb.deb https://piston.feed-the-beast.com/app/ftb-app-linux-1.28.2-amd64.deb
     sudo apt-get install -y ./ftb.deb
     echo "FTB App installed"
+    echo "removing unneeded packages"
+    sudo apt-get remove -y transmission-gtk mintchat thunderbird thingy
+    echo "thunderbird, transmission, matrix, and thingy have been removed"
+
   elif [[ $DISTRO = "fedora" ]]
   then
-    PACKAGES_TO_INSTALL+=(util-linux-user smplayer.x86_64 smplayer-themes.x86_64 redshift-gtk liberation-fonts libdvdcss cabextract xorg-x11-font-utils fontconfig mullvad-vpn)
+    PACKAGES_TO_INSTALL+=(util-linux-user smplayer.x86_64 smplayer-themes.x86_64 redshift-gtk liberation-fonts cabextract xorg-x11-font-utils fontconfig mullvad-vpn)
     
     echo "Enabling the Free and Nonfree RPM Fusion repos"
     sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
@@ -204,7 +208,7 @@ curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
 echo "fnm installed"
 # install latest node LTS version
 echo "Installing latest node.js LTS version"
-cd .local/share/fnm/
+cd ~/.local/share/fnm/
 ./fnm install --lts
 echo "Node LTS installed"
 
