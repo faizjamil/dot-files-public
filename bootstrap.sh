@@ -218,9 +218,7 @@ echo "Restoring Cinnamon config(s)"
 cd cinnamon_config
 dconf load /org/cinnamon/ < dconf-settings-mint
 echo "Cinnamon config(s) restored"
-mkdir ~/.ssh
-chmod -R 700 ~/.ssh
-echo ".ssh directory perms set"
+
 echo "Make linux use local time"
 timedatectl set-local-rtc 1 --adjust-system-clock
 # echo "Linux uses local time, time should be fine on windows and linux now"
