@@ -85,20 +85,20 @@ then
     cd /tmp
     echo "Installing ATLauncher"
     wget -O atlauncher.deb https://atlauncher.com/download/deb
-    sudo apt-get -y install ./atlauncher.deb
+    sudo apt-get install -y ./atlauncher.deb
     echo "ATLauncher installed"
     echo "Installing FTB App"
     wget -P "/tmp/" -O ftb.deb https://piston.feed-the-beast.com/app/ftb-app-linux-1.28.2-amd64.deb
-    sudo apt-get -y install ./ftb.deb
+    sudo apt-get install -y ./ftb.deb
     echo "FTB App installed"
   elif [[ $DISTRO = "fedora" ]]
   then
     PACKAGES_TO_INSTALL+=(util-linux-user smplayer.x86_64 smplayer-themes.x86_64 redshift-gtk liberation-fonts libdvdcss cabextract xorg-x11-font-utils fontconfig mullvad-vpn)
     
     echo "Enabling the Free and Nonfree RPM Fusion repos"
-    sudo dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-    sudo dnf -y install https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-    sudo dnf -y groupupdate core
+    sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+    sudo dnf install -y https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+    sudo dnf groupupdate -y core
     sudo dnf install -y rpmfusion-free-release-tainted
     sudo dnf install -y rpmfusion-nonfree-release-tainted 
     sudo dnf install -y dnf-plugins-core
@@ -204,7 +204,8 @@ curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
 echo "fnm installed"
 # install latest node LTS version
 echo "Installing latest node.js LTS version"
-.local/share/fnm/fnm install --lts
+cd .local/share/fnm/
+./fnm install --lts
 echo "Node LTS installed"
 
 # create symlink to .gitconfig
@@ -214,8 +215,10 @@ ln -s ~/repos/dot-files-public/.config/redshift ~/.config/redshift
 ln -s ~/repos/dot-files-public/.config/terminator ~/.config/terminator
 echo "symlinks created"
 echo "Restoring Cinnamon config(s)"
-dconf load /org/cinnamon/ < /cinnamon_config/dconf-settings-mint
+cd cinnamon_config
+dconf load /org/cinnamon/ < dconf-settings-mint
 echo "Cinnamon config(s) restored"
+mkdir ~/.ssh
 chmod -R 700 ~/.ssh
 echo ".ssh directory perms set"
 echo "Make linux use local time"
