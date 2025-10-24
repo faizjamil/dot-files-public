@@ -182,35 +182,30 @@ rm ~/.zshrc
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
 echo "oh-my-zsh installed"
 echo "Installing fnm"
-# installs fnm 
-curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
-echo "fnm installed"
+
 # if dnf is on system
 if [[ $DISTRO = "ubuntu_wsl" || $DISTRO = "ubuntu" ]]
 then
   ln -s ~/repos/dot-files-public/.dotfiles/.zshrc_apt ~/.zshrc
   echo "symlink to .zshrc created"
-  source ~/.zshrc
 elif [[ $DISTRO = "fedora" ]]
 then
   ln -s ~/repos/dot-files-public/.dotfiles/.zshrc_dnf ~/.zshrc
   echo "symlink to .zshrc created"
-  source ~/.zshrc
 else 
   echo "NOT ON UBUNTU OR FEDORA BASED SYSTEM, NOT SYMLINKING ZSHRC"
 fi
-
+# installs fnm 
+curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
+echo "fnm installed"
 # install latest node LTS version
 echo "Installing latest node.js LTS version"
-fnm install --lts
+.local/share/fnm/fnm install --lts
 echo "Node LTS installed"
 
-# create symlink to .gitconfig and .zshrc
-echo "creating symlink to .gitconfig"
-
-# ln -s ~/repos/dot-files/.dotfiles/.zshrc_apt ~/.zshrc
+# create symlink to .gitconfig
+echo "creating symlink to configs"
 ln -s ~/repos/dot-files-public/.dotfiles/.gitconfig ~/.gitconfig
-echo "creating symlinks for configs"
 ln -s ~/repos/dot-files-public/.config/redshift ~/.config/redshift
 ln -s ~/repos/dot-files-public/.config/terminator ~/.config/terminator
 echo "symlinks created"
@@ -219,8 +214,8 @@ dconf load /org/cinnamon/ < /cinnamon_config/dconf-settings-mint
 echo "Cinnamon config(s) restored"
 chmod -R 700 ~/.ssh
 echo ".ssh directory perms set"
-# echo "Make linux use local time"
-# timedatectl set-local-rtc 1 --adjust-system-clock
+echo "Make linux use local time"
+timedatectl set-local-rtc 1 --adjust-system-clock
 # echo "Linux uses local time, time should be fine on windows and linux now"
 # TO UNDO THE ABOVE: timedatectl set-local-rtc 0 --adjust-system-clock
 echo "Setup complete, enjoy your system :)"
