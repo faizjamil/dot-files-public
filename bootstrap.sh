@@ -183,9 +183,9 @@ else
 fi
 
 echo "Installing oh-my-zsh and removing .zshrc from home directory"
-rm ~/.zshrc
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
 echo "oh-my-zsh installed"
+rm ~/.zshrc
 
 # if dnf is on system
 if [[ $DISTRO = "ubuntu_wsl" || $DISTRO = "ubuntu" ]]
@@ -219,7 +219,7 @@ ln -s ~/repos/dot-files-public/.config/redshift ~/.config/redshift
 ln -s ~/repos/dot-files-public/.config/terminator ~/.config/terminator
 echo "symlinks created"
 echo "Restoring Cinnamon config(s)"
-cd cinnamon_config
+cd ./cinnamon_config
 dconf load /org/cinnamon/ < dconf-settings-mint
 echo "Cinnamon config(s) restored"
 
