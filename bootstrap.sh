@@ -48,7 +48,7 @@ fi
 DISTRO=$(checkDistro)
 if [[ ! $DISTRO = "ubuntu_wsl" ]]
 then
-  PACKAGES_TO_INSTALL+=(code vlc steam filezilla keepassxc qbittorrent terminator mullvad-vpn)
+  PACKAGES_TO_INSTALL+=(code vlc steam filezilla qbittorrent terminator mullvad-vpn)
   if [[ $DISTRO = "ubuntu" || $DISTRO = "debian" ]]
   then 
     PACKAGES_TO_INSTALL+=(smplayer smplayer-themes redshift fonts-liberation ttf-mscorefonts-installer)
@@ -79,22 +79,21 @@ then
         echo Installing ${PACKAGE}  
         sudo apt-get -y install  ${PACKAGE}
     done
-    # install FTB APP
-    # deb url: https://piston.feed-the-beast.com/app/ftb-app-linux-1.28.2-amd64.deb
     # install ATLauncher
     cd /tmp
     echo "Installing ATLauncher"
     wget -O atlauncher.deb https://atlauncher.com/download/deb
     sudo apt-get install -y ./atlauncher.deb
     echo "ATLauncher installed"
+    # install FTB APP
+    # deb url: https://piston.feed-the-beast.com/app/ftb-app-linux-1.28.2-amd64.deb
     echo "Installing FTB App"
-    wget -P "/tmp/" -O ftb.deb https://piston.feed-the-beast.com/app/ftb-app-linux-1.28.2-amd64.deb
+    wget -O ftb.deb https://piston.feed-the-beast.com/app/ftb-app-linux-1.28.2-amd64.deb
     sudo apt-get install -y ./ftb.deb
     echo "FTB App installed"
     echo "removing unneeded packages"
     sudo apt-get remove -y transmission-gtk mintchat thunderbird thingy
     echo "thunderbird, transmission, matrix, and thingy have been removed"
-
   elif [[ $DISTRO = "fedora" ]]
   then
     PACKAGES_TO_INSTALL+=(util-linux-user smplayer.x86_64 smplayer-themes.x86_64 redshift-gtk liberation-fonts cabextract xorg-x11-font-utils fontconfig mullvad-vpn)
@@ -154,22 +153,25 @@ then
   cd ~/repos/dot-files-public
 
   echo "To install overGrive (Google Drive client) go to https://www.overgrive.com/"
-  read -n 1 -p "Press any key once that's complete"
+  read -n 1 -p "\n Press any key once that's complete \n"
   echo "Adding Flathub remote to Flatpak"
   flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   echo "Flathub remote added to Flatpak"
-  echo "Installing Zoom from flatpak"
+  echo "Installing Zoom flatpak"
   flatpak install -y --noninteractive flathub us.zoom.Zoom
   echo "Zoom flatpak installed"
-  echo "Installing Slack from flathub"
+  echo "Installing Slack flathub"
   flatpak install -y --noninteractive flathub com.slack.Slack
   echo "Slack flatpak installed"
-  echo "Installing Discord from flatpak"
+  echo "Installing Discord flatpak"
   flatpak install -y --noninteractive flathub com.discordapp.Discord
   echo "Discord flatpak installed"
   echo "Installing Flatseal"
   flatpak install -y --noninteractive flathub com.github.tchx84.Flatseal
   echo "Flatseal installed"
+  echo "Installing KeepassXC flatpak"
+  flatpak install --user -y --noninteractive flathub org.keepassxc.KeePassXC
+  echo "KeepassXC flatpak installed"
 else
     # assume is ubuntu WSL
     sudo apt-get update
