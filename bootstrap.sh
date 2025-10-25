@@ -213,17 +213,17 @@ echo "Installing latest node.js LTS version"
 cd ~/.local/share/fnm/
 ./fnm install --lts
 echo "Node LTS installed"
-
+cd ~/repos/dot-files-public
 # create symlink to .gitconfig
 echo "creating symlink to configs"
 ln -s ~/repos/dot-files-public/.dotfiles/.gitconfig ~/.gitconfig
 ln -s ~/repos/dot-files-public/.config/redshift ~/.config/redshift
 ln -s ~/repos/dot-files-public/.config/terminator ~/.config/terminator
 echo "symlinks created"
-echo "Restoring Cinnamon config(s)"
-cd ./cinnamon_config
-dconf load /org/cinnamon/ < dconf-settings-mint
-echo "Cinnamon config(s) restored"
+# echo "Restoring Cinnamon config(s)"
+# cd ./cinnamon_config
+# dconf load /org/cinnamon/ < dconf-settings-mint
+# echo "Cinnamon config(s) restored"
 
 echo "Make linux use local time"
 timedatectl set-local-rtc 1 --adjust-system-clock
