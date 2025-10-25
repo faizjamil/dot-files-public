@@ -85,20 +85,22 @@ then
     # 6. Update your package list
     sudo apt-get update
     echo "Updating firmware for available devices"
-    sudo fwupdmgr get-devices 
-    sudo fwupdmgr refresh --force 
-    sudo fwupdmgr get-updates 
-    sudo fwupdmgr -y update
+    sudo fwupdmgr get-devices -y
+    sudo fwupdmgr refresh --force -y
+    sudo fwupdmgr get-updates -y
+    sudo fwupdmgr update -y
     echo "Upgrading existing packages"
-    sudo apt-get -y upgrade
+    sudo apt-get upgrade -y
     echo "Existing packages upgraded"
+    echo "Installing all specified native packages"
 
     for PACKAGE in "${PACKAGES_TO_INSTALL[@]}"
     do 
-        echo Installing ${PACKAGE}  
+        echo "Installing ${PACKAGE}"  
         sudo apt-get -y install  ${PACKAGE}
+        echo "${PACKAGE} installed"  
+
     done
-    echo ${PACKAGES_TO_INSTALL} installed
     
     # install ATLauncher
     cd /tmp
@@ -112,6 +114,7 @@ then
     wget -O ftb.deb https://piston.feed-the-beast.com/app/ftb-app-linux-1.28.2-amd64.deb
     sudo apt-get install -y ./ftb.deb
     echo "FTB App installed"
+    echo "All specified native packages installed"
     
   elif [[ $DISTRO = "fedora" ]]
   then
@@ -126,10 +129,10 @@ then
     sudo dnf install -y dnf-plugins-core
     echo "rpmfusion repos enabled"
     echo "Updating firmware for available devices"
-    sudo fwupdmgr get-devices 
-    sudo fwupdmgr refresh --force 
-    sudo fwupdmgr get-updates 
-    sudo fwupdmgr -y update
+    sudo fwupdmgr get-devices -y
+    sudo fwupdmgr refresh --force -y
+    sudo fwupdmgr get-updates -y
+    sudo fwupdmgr update -y
     echo "Adding Microsoft Repo for VS Code"
     sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
     echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
@@ -141,12 +144,14 @@ then
     echo "Upgrading existing packages"
     sudo dnf upgrade -y --refresh
     echo "Existing packages upgraded"
+    echo "Installing all specified native packages"
     for PACKAGE in "${PACKAGES_TO_INSTALL[@]}"
     do 
-        echo Installing ${PACKAGE}  
+        echo "Installing ${PACKAGE}"  
         sudo dnf install -y ${PACKAGE}
+        echo "${PACKAGE} installed"  
+
     done
-    echo ${PACKAGES_TO_INSTALL} installed
     echo "Installing ATLauncher"
     sudo dnf install -y https://atlauncher.com/download/rpm
     echo "Installed ATLauncher"
@@ -168,47 +173,43 @@ then
     echo "Installing Microsoft fonts"
     sudo dnf install -y https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
     echo "Microsoft fonts installed"
+    echo "All specified native packages installed"
+
   fi
   cd ~/repos/dot-files-public
 
   echo "To install overGrive (Google Drive client) go to https://www.overgrive.com/"
-  read -n 1 -p "\\n Press any key once that's complete \\n"
-  echo "Adding Flathub remote to Flatpak"
-  # echo -e "\n Adding Flathub remote to Flatpak \n"
+  read -n 1 -p "Press any key once that's complete"
+  echo -e "\n Adding Flathub remote to Flatpak \n"
   flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   echo "Flathub remote added to Flatpak"
   FLATPAKS_TO_INSTALL=(us.zoom.Zoom com.slack.Slack com.discordapp.Discord org.keepassxc.KeePassXC com.github.tchx84.Flatseal )
+  echo "Installing all specified flatpaks"
+  
   for FLATPAK in "${FLATPAKS_TO_INSTALL[@]}"
   do 
-      echo "Installing ${FLATPAK}"  
+      echo "Installing ${FLATPAK} flatpak"  
       flatpak install -y --noninteractive flathub ${FLATPAK}
+      echo "${FLATPAK} installed"  
+
   done
-  echo "${FLATPAKS_TO_INSTALL} flatpaks installed"
-  # echo "Installing Zoom flatpak"
-  # flatpak install -y --noninteractive flathub us.zoom.Zoom
-  # echo "Zoom flatpak installed"
-  # echo "Installing Slack flatpak"
-  # flatpak install -y --noninteractive flathub com.slack.Slack
-  # echo "Slack flatpak installed"
-  # echo "Installing Discord flatpak"
-  # flatpak install -y --noninteractive flathub com.discordapp.Discord
-  # echo "Discord flatpak installed"
-  # echo "Installing Flatseal"
-  # flatpak install -y --noninteractive flathub com.github.tchx84.Flatseal
-  # echo "Flatseal installed"
-  # echo "Installing KeepassXC flatpak"
-  # flatpak install -y --noninteractive flathub org.keepassxc.KeePassXC
-  # echo "KeepassXC flatpak installed"
+  echo "All specified flatpaks installed"
 else
     # assume is ubuntu WSL
     sudo apt-get update
     echo "Upgrading existing packages"
-    sudo apt-get -y upgrade
+    sudo apt-get upgrade -y
+    echo "Installing specified native packages"
+    
     for PACKAGE in "${PACKAGES_TO_INSTALL[@]}"
     do 
-        echo Installing ${PACKAGE}  
-        sudo apt-get -y install  ${PACKAGE}
+        echo "Installing ${PACKAGE}"  
+        sudo apt-get install -y ${PACKAGE}
+        echo "${PACKAGE} installed"  
+
     done
+    echo "All specified native packages installed"
+
 fi
 
 echo "Installing oh-my-zsh and removing .zshrc from home directory"
@@ -252,8 +253,8 @@ echo "symlinks created"
 # dconf load /org/cinnamon/ < dconf-settings-mint
 # echo "Cinnamon config(s) restored"
 
-echo "Make linux use local time"
-timedatectl set-local-rtc 1 --adjust-system-clock
+# echo "Make linux use local time"
+# timedatectl set-local-rtc 1 --adjust-system-clock
 # echo "Linux uses local time, time should be fine on windows and linux now"
 # TO UNDO THE ABOVE: timedatectl set-local-rtc 0 --adjust-system-clock
 echo "Setup complete, enjoy your system :)"
