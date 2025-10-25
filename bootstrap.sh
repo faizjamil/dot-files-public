@@ -51,7 +51,7 @@ then
   PACKAGES_TO_INSTALL+=(code vlc steam filezilla qbittorrent terminator mullvad-vpn)
   if [[ $DISTRO = "ubuntu" || $DISTRO = "debian" ]]
   then 
-    PACKAGES_TO_INSTALL+=(smplayer smplayer-themes redshift fonts-liberation ttf-mscorefonts-installer)
+    PACKAGES_TO_INSTALL+=(firefox smplayer smplayer-themes redshift fonts-liberation ttf-mscorefonts-installer)
     echo "Adding repo for VS Code"
     echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
     echo "VS Code repo added"
@@ -79,15 +79,16 @@ then
     Pin: origin packages.mozilla.org
     Pin-Priority: 1000
     ' | sudo tee /etc/apt/preferences.d/mozilla 
-    # 6. Update your package list, and install firefox
-    sudo apt-get remove -y firefox
+    echo "removing unneeded packages"
+    sudo apt-get remove -y firefox transmission-gtk mintchat thunderbird thingy
+    echo "thunderbird, transmission, matrix, and thingy have been removed"
+    # 6. Update your package list
     sudo apt-get update
-    sudo apt-get install -y firefox
     echo "Updating firmware for available devices"
     sudo fwupdmgr get-devices 
     sudo fwupdmgr refresh --force 
     sudo fwupdmgr get-updates 
-    sudo fwupdmgr update
+    sudo fwupdmgr -y update
     echo "Upgrading existing packages"
     sudo apt-get -y upgrade
     echo "Existing packages upgraded"
@@ -97,6 +98,8 @@ then
         echo Installing ${PACKAGE}  
         sudo apt-get -y install  ${PACKAGE}
     done
+    echo ${PACKAGES_TO_INSTALL} installed
+    
     # install ATLauncher
     cd /tmp
     echo "Installing ATLauncher"
@@ -109,9 +112,7 @@ then
     wget -O ftb.deb https://piston.feed-the-beast.com/app/ftb-app-linux-1.28.2-amd64.deb
     sudo apt-get install -y ./ftb.deb
     echo "FTB App installed"
-    echo "removing unneeded packages"
-    sudo apt-get remove -y transmission-gtk mintchat thunderbird thingy
-    echo "thunderbird, transmission, matrix, and thingy have been removed"
+    
   elif [[ $DISTRO = "fedora" ]]
   then
     PACKAGES_TO_INSTALL+=(util-linux-user smplayer.x86_64 smplayer-themes.x86_64 redshift-gtk liberation-fonts cabextract xorg-x11-font-utils fontconfig mullvad-vpn)
@@ -128,7 +129,7 @@ then
     sudo fwupdmgr get-devices 
     sudo fwupdmgr refresh --force 
     sudo fwupdmgr get-updates 
-    sudo fwupdmgr update
+    sudo fwupdmgr -y update
     echo "Adding Microsoft Repo for VS Code"
     sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
     echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
@@ -171,25 +172,33 @@ then
   cd ~/repos/dot-files-public
 
   echo "To install overGrive (Google Drive client) go to https://www.overgrive.com/"
-  read -n 1 -p "\n Press any key once that's complete \n"
+  read -n 1 -p "\\n Press any key once that's complete \\n"
   echo "Adding Flathub remote to Flatpak"
+  # echo -e "\n Adding Flathub remote to Flatpak \n"
   flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   echo "Flathub remote added to Flatpak"
-  echo "Installing Zoom flatpak"
-  flatpak install -y --noninteractive flathub us.zoom.Zoom
-  echo "Zoom flatpak installed"
-  echo "Installing Slack flathub"
-  flatpak install -y --noninteractive flathub com.slack.Slack
-  echo "Slack flatpak installed"
-  echo "Installing Discord flatpak"
-  flatpak install -y --noninteractive flathub com.discordapp.Discord
-  echo "Discord flatpak installed"
-  echo "Installing Flatseal"
-  flatpak install -y --noninteractive flathub com.github.tchx84.Flatseal
-  echo "Flatseal installed"
-  echo "Installing KeepassXC flatpak"
-  flatpak install --user -y --noninteractive flathub org.keepassxc.KeePassXC
-  echo "KeepassXC flatpak installed"
+  FLATPAKS_TO_INSTALL=(us.zoom.Zoom com.slack.Slack com.discordapp.Discord org.keepassxc.KeePassXC com.github.tchx84.Flatseal )
+  for FLATPAK in "${FLATPAKS_TO_INSTALL[@]}"
+  do 
+      echo "Installing ${FLATPAK}"  
+      flatpak install -y --noninteractive flathub ${FLATPAK}
+  done
+  echo "${FLATPAKS_TO_INSTALL} flatpaks installed"
+  # echo "Installing Zoom flatpak"
+  # flatpak install -y --noninteractive flathub us.zoom.Zoom
+  # echo "Zoom flatpak installed"
+  # echo "Installing Slack flatpak"
+  # flatpak install -y --noninteractive flathub com.slack.Slack
+  # echo "Slack flatpak installed"
+  # echo "Installing Discord flatpak"
+  # flatpak install -y --noninteractive flathub com.discordapp.Discord
+  # echo "Discord flatpak installed"
+  # echo "Installing Flatseal"
+  # flatpak install -y --noninteractive flathub com.github.tchx84.Flatseal
+  # echo "Flatseal installed"
+  # echo "Installing KeepassXC flatpak"
+  # flatpak install -y --noninteractive flathub org.keepassxc.KeePassXC
+  # echo "KeepassXC flatpak installed"
 else
     # assume is ubuntu WSL
     sudo apt-get update
