@@ -104,10 +104,6 @@ then
     
     # install ATLauncher
     cd /tmp
-    echo "Installing ATLauncher"
-    wget -O atlauncher.deb https://atlauncher.com/download/deb
-    sudo apt-get install -y ./atlauncher.deb
-    echo "ATLauncher installed"
     # install FTB APP
     # deb url: https://piston.feed-the-beast.com/app/ftb-app-linux-1.28.2-amd64.deb
     echo "Installing FTB App"
@@ -152,9 +148,9 @@ then
         echo "${PACKAGE} installed"  
 
     done
-    echo "Installing ATLauncher"
-    sudo dnf install -y https://atlauncher.com/download/rpm
-    echo "Installed ATLauncher"
+    echo "Installing FTB App"
+    sudo dnf install -y https://piston.feed-the-beast.com/app/ftb-app-linux-1.28.2-x86_64.rpm
+    echo "Installed FTB App"
     echo "Installing packages for gstreamer applications"
     sudo dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel
     sudo dnf install -y lame\* --exclude=lame-devel
@@ -183,7 +179,7 @@ then
   echo -e "\n Adding Flathub remote to Flatpak \n"
   flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   echo "Flathub remote added to Flatpak"
-  FLATPAKS_TO_INSTALL=(us.zoom.Zoom com.slack.Slack com.discordapp.Discord org.keepassxc.KeePassXC com.github.tchx84.Flatseal )
+  FLATPAKS_TO_INSTALL=(us.zoom.Zoom com.slack.Slack com.discordapp.Discord org.keepassxc.KeePassXC org.prismlauncher.PrismLauncher com.github.tchx84.Flatseal )
   echo "Installing all specified flatpaks"
   
   for FLATPAK in "${FLATPAKS_TO_INSTALL[@]}"
@@ -217,8 +213,8 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 echo "oh-my-zsh installed"
 rm ~/.zshrc
 
-# if dnf is on system
-if [[ $DISTRO = "ubuntu_wsl" || $DISTRO = "ubuntu" ]]
+# if apt is on system
+if [[ $DISTRO = "ubuntu_wsl" || $DISTRO = "ubuntu" || $DISTRO = "debian" ]]
 then
   ln -s ~/repos/dot-files-public/.dotfiles/.zshrc_apt ~/.zshrc
   echo "symlink to .zshrc created"
