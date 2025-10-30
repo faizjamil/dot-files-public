@@ -140,3 +140,4 @@ eval "$(fnm env --shell zsh)"
 # Initialize zsh completions (added by deno install script)
 autoload -Uz compinit
 compinit
+unset zle_bracketed_paste
