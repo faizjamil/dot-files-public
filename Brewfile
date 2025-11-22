@@ -11,7 +11,9 @@
 # 'brew install'
 # Official Amazon AWS command-line interface
 brew "awscli"
+# A cat(1) clone with syntax highlighting and Git integration
 brew "bat"
+# Extra tools and enhancements for bat
 brew "bat-extras"
 # Create and view interactive cheat sheets for *nix commands
 brew "cheat"
@@ -21,10 +23,14 @@ brew "exiftool"
 brew "eza"
 # Command-line fuzzy finder written in Go
 brew "fzf"
-# Node version manager
-brew "fnm"
+
 # Distributed revision control system
 brew "git"
+# Simple terminal-based text editor
+brew "nano"
+# Line-oriented search tool that recursively searches directories for a regex pattern
+brew "ripgrep"
+# Command-line tool to correct previous console commands
 brew "thefuck"
 # Simplified and community-driven man pages
 brew "tlrc"
@@ -43,20 +49,24 @@ brew "zoxide"
 # 'brew install --cask'
 # Server and cloud storage browser
 cask "cyberduck"
+# Universal database tool for developers and database administrators
+cask "dbeaver-community"
 # App to build and share containerised applications and microservices
 cask "docker-desktop"
+# Web browser developed by Mozilla Foundation
 cask "firefox"
+# Web browser developed by Google
 cask "google-chrome"
 # Client for the Google Drive storage service
 cask "google-drive"
+# API design platform and collaborative tool
 cask "insomnia"
 # Password manager app
 cask "keepassxc"
-cask "mysqlworkbench"
-# MongoDB management tool
-cask "studio-3t-community"
 # Team communication and collaboration software
 cask "slack"
+# MongoDB management tool
+cask "studio-3t-community"
 # Open-source code editor
 cask "visual-studio-code"
 # Multimedia player
