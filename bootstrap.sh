@@ -55,14 +55,14 @@ then
     echo "Adding repo for VS Code"
     echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
     echo "VS Code repo added"
+
     echo "Adding repo for Mullvad"
-    
     # Download the Mullvad signing key
     sudo curl -fsSLo /usr/share/keyrings/mullvad-keyring.asc https://repository.mullvad.net/deb/mullvad-keyring.asc
-
     # Add the Mullvad repository server to apt
     echo "deb [signed-by=/usr/share/keyrings/mullvad-keyring.asc arch=$( dpkg --print-architecture )] https://repository.mullvad.net/deb/stable stable main" | sudo tee /etc/apt/sources.list.d/mullvad.list
     echo "Mullvad repo added"
+
     echo "Adding repo for Firefox"
     # from: https://support.mozilla.org/en-US/kb/install-firefox-linux#w_install-firefox-deb-package-for-debian-based-distributions-recommended
     # 1. Create a directory to store APT repository keys if it doesn't exist: 
@@ -79,19 +79,23 @@ then
     Pin: origin packages.mozilla.org
     Pin-Priority: 1000
     ' | sudo tee /etc/apt/preferences.d/mozilla 
+    # we are using firefox from official mozilla repo
     echo "removing unneeded packages"
     sudo apt-get remove -y firefox transmission-gtk mintchat thunderbird thingy
-    echo "thunderbird, transmission, matrix, and thingy have been removed"
+    echo "firefox, thunderbird, transmission, matrix, and thingy have been removed"
     # 6. Update your package list
     sudo apt-get update
+
     echo "Updating firmware for available devices"
     sudo fwupdmgr get-devices -y
     sudo fwupdmgr refresh --force -y
     sudo fwupdmgr get-updates -y
     sudo fwupdmgr update -y
+
     echo "Upgrading existing packages"
     sudo apt-get upgrade -y
     echo "Existing packages upgraded"
+
     echo "Installing all specified native packages"
 
     for PACKAGE in "${PACKAGES_TO_INSTALL[@]}"
@@ -99,10 +103,8 @@ then
         echo "Installing ${PACKAGE}"  
         sudo apt-get -y install  ${PACKAGE}
         echo "${PACKAGE} installed"  
-
     done
-    
-    # install ATLauncher
+
     cd /tmp
     # install FTB APP
     # deb url: https://piston.feed-the-beast.com/app/ftb-app-linux-1.28.2-amd64.deb
@@ -111,11 +113,11 @@ then
     sudo apt-get install -y ./ftb.deb
     echo "FTB App installed"
     echo "All specified native packages installed"
-    
+
   elif [[ $DISTRO = "fedora" ]]
   then
     PACKAGES_TO_INSTALL+=(util-linux-user smplayer.x86_64 smplayer-themes.x86_64 redshift-gtk liberation-fonts cabextract xorg-x11-font-utils fontconfig mullvad-vpn)
-    
+
     echo "Enabling the Free and Nonfree RPM Fusion repos"
     sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
     sudo dnf install -y https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
@@ -124,70 +126,80 @@ then
     sudo dnf install -y rpmfusion-nonfree-release-tainted 
     sudo dnf install -y dnf-plugins-core
     echo "rpmfusion repos enabled"
+
     echo "Updating firmware for available devices"
     sudo fwupdmgr get-devices -y
     sudo fwupdmgr refresh --force -y
     sudo fwupdmgr get-updates -y
     sudo fwupdmgr update -y
+
     echo "Adding Microsoft Repo for VS Code"
     sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
     echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+    echo "Repo for VS Code added"
+
     echo "Adding repo for mullvad VPN"
     # Fedora 41 and newer
     # Add the Mullvad repository server to dnf
     sudo dnf config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
     echo "Repo for mullvad VPN added"
+
     echo "Upgrading existing packages"
     sudo dnf upgrade -y --refresh
     echo "Existing packages upgraded"
+
     echo "Installing all specified native packages"
     for PACKAGE in "${PACKAGES_TO_INSTALL[@]}"
     do 
         echo "Installing ${PACKAGE}"  
         sudo dnf install -y ${PACKAGE}
         echo "${PACKAGE} installed"  
-
     done
+    
     echo "Installing FTB App"
     sudo dnf install -y https://piston.feed-the-beast.com/app/ftb-app-linux-1.28.2-x86_64.rpm
     echo "Installed FTB App"
+
     echo "Installing packages for gstreamer applications"
     sudo dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel
     sudo dnf install -y lame\* --exclude=lame-devel
     sudo dnf group upgrade -y --with-optional Multimedia --allowerasing
     echo "Packages for gstreamer apps installed"
+    
     echo "Installing packages needed by some apps for sound and video"
     sudo dnf groupupdate -y sound-and-video
     echo "Sound and video package group installed"
+    
     echo "Installing OpenH264"
     sudo dnf config-manager -y --set-enabled fedora-cisco-openh264
     sudo dnf install -y gstreamer1-plugin-openh264 mozilla-openh264
     echo "OpenH264 installed, ensure it's enabled in Firefox"
+    
     echo "Running another upgrade with support for additional codecs"
     sudo dnf group upgrade -y --with-optional Multimedia --allowerasing
     echo "Multimedia packages installed"
+    
     echo "Installing Microsoft fonts"
     sudo dnf install -y https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
     echo "Microsoft fonts installed"
     echo "All specified native packages installed"
-
   fi
   cd ~/repos/dot-files-public
 
   echo "To install overGrive (Google Drive client) go to https://www.overgrive.com/"
   read -n 1 -p "Press any key once that's complete"
+
   echo -e "\n Adding Flathub remote to Flatpak \n"
   flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   echo "Flathub remote added to Flatpak"
-  FLATPAKS_TO_INSTALL=(us.zoom.Zoom com.slack.Slack com.discordapp.Discord org.keepassxc.KeePassXC org.prismlauncher.PrismLauncher com.github.tchx84.Flatseal )
+  FLATPAKS_TO_INSTALL=(us.zoom.Zoom com.slack.Slack com.discordapp.Discord org.keepassxc.KeePassXC org.prismlauncher.PrismLauncher com.github.tchx84.Flatseal)
+
   echo "Installing all specified flatpaks"
-  
   for FLATPAK in "${FLATPAKS_TO_INSTALL[@]}"
   do 
       echo "Installing ${FLATPAK} flatpak"  
       flatpak install -y --noninteractive flathub ${FLATPAK}
       echo "${FLATPAK} installed"  
-
   done
   echo "All specified flatpaks installed"
 else
@@ -195,17 +207,16 @@ else
     sudo apt-get update
     echo "Upgrading existing packages"
     sudo apt-get upgrade -y
+
     echo "Installing specified native packages"
-    
     for PACKAGE in "${PACKAGES_TO_INSTALL[@]}"
     do 
         echo "Installing ${PACKAGE}"  
         sudo apt-get install -y ${PACKAGE}
         echo "${PACKAGE} installed"  
-
     done
-    echo "All specified native packages installed"
 
+    echo "All specified native packages installed"
 fi
 
 echo "Installing oh-my-zsh and removing .zshrc from home directory"
@@ -228,15 +239,15 @@ fi
 echo "Installing deno"
 curl -fsSL https://deno.land/install.sh | bash -s -- --yes --no-modify-path
 echo "Deno installed"
-# installs fnm 
-echo "Installing fnm"
-curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
-echo "fnm installed"
+# install nvm without touching .zshrc
+echo "Installing nvm"
+PROFILE=/dev/null bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash'
+echo "nvm installed"
 # install latest node LTS version
 echo "Installing latest node.js LTS version"
-cd ~/.local/share/fnm/
-./fnm install --lts
-echo "Node LTS installed"
+cd ~/.nvm
+nvm install --lts
+echo "Node.js LTS installed"
 cd ~/repos/dot-files-public
 # create symlink to .gitconfig
 echo "creating symlink to configs"
