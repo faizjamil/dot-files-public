@@ -2,7 +2,7 @@
 # generate ssh key for github usage
 mkdir -p ~/.ssh
 #some docs for below are from: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
-echo "Creating SSH key..."
+echo "Creating SSH key... (use default file name)"
 ssh-keygen -t ed25519 -C "faizan.jamilwork@gmail.com"
 mv ~/.ssh/id_ed25519 ~/.ssh/github_id_ed25519
 mv ~/.ssh/id_ed25519.pub ~/.ssh/github_id_ed25519.pub

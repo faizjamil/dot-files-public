@@ -11,13 +11,14 @@
 
 echo "Installing Homebrew"
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-if [[ "$(uname -m)" == "arm64" ]]; then
-    echo "Arm64 detected, adding homebrew to path"
-    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
+# we don't need this cause our existing .zshrc has the path already
+# if [[ "$(uname -m)" == "arm64" ]]; then
+#     echo "Arm64 detected, adding homebrew to path"
+#     echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+#     eval "$(/opt/homebrew/bin/brew shellenv)"
+# fi
 
-clear
+# clear
 #source ~/.zshrc
 echo "Installing brew packages"
 cd /opt/homebrew/bin/
@@ -44,17 +45,17 @@ read -n 1 -p "Press any key once that's complete"
 source ~/.zshrc
 
 echo "Installing latest node.js LTS version"
-cd ~/.nvm
+echo "yarn\npnpm" >> default-packages
 nvm install --lts
 echo "Node.js LTS is installed"
 
-echo "copying .npmrc to silence npm updates"
-cp .npmrc ~/.npmrc
+echo "config npm to silence npm updates"
+echo "update-notifier=false" >> ~/.npmrc
 echo "npm configured"
 echo "Installation complete!"
 echo "Enabling show hidden files in Finder"
 defaults write com.apple.finder AppleShowAllFiles -boolean true; killall Finder;
 echo "Hidden files now shown in Finder"
 echo "Generating SSH key, add this to github account then run repo setup script"
-bash gen_ssh_key
+bash gen_ssh_key.sh
 echo "Please reboot your system and add your SSH key to Github before running the newsday-setup-repos script"
