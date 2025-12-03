@@ -26,7 +26,7 @@ brew bundle install --force
 
 
 brew doctor
-
+cd ~/repos/dot-files-public
 echo "Installing Oh My ZSH"
 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
 
@@ -45,7 +45,7 @@ read -n 1 -p "Press any key once that's complete"
 source ~/.zshrc
 
 echo "Installing latest node.js LTS version"
-echo "yarn\npnpm" >> default-packages
+echo "yarn\npnpm" >> ~/.nvm/default-packages
 nvm install --lts
 echo "Node.js LTS is installed"
 
