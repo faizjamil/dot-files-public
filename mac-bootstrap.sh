@@ -11,22 +11,20 @@
 
 echo "Installing Homebrew"
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-# we don't need this cause our existing .zshrc has the path already
-# if [[ "$(uname -m)" == "arm64" ]]; then
-#     echo "Arm64 detected, adding homebrew to path"
-#     echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-#     eval "$(/opt/homebrew/bin/brew shellenv)"
-# fi
+# we're doing this to prevent issues with sourcing .zshrc
+if [[ "$(uname -m)" == "arm64" ]]; then
+  echo "Arm64 detected, adding homebrew to path"
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+  source ~/.zprofile
+fi
 
 # clear
-#source ~/.zshrc
 echo "Installing brew packages"
-cd /opt/homebrew/bin/
 brew bundle install --force
 
 
 brew doctor
-cd ~/repos/dot-files-public
 echo "Installing Oh My ZSH"
 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
 
@@ -39,9 +37,9 @@ echo "Installing deno"
 curl -fsSL https://deno.land/install.sh | bash -s -- --yes --no-modify-path
 echo "Deno installed"
 
-rm ~/.zshrc
+#rm ~/.zshrc
 echo "COPY OVER .zshrc FILE FROM OTHER COMPUTER"
-read -n 1 -p "Press any key once that's complete"
+# read "Press any key once that's complete"
 source ~/.zshrc
 
 echo "Installing latest node.js LTS version"
