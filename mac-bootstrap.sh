@@ -57,3 +57,5 @@ echo "Hidden files now shown in Finder"
 echo "Generating SSH key, add this to github account then run repo setup script"
 bash gen_ssh_key.sh
 echo "Please reboot your system and add your SSH key to Github before running the newsday-setup-repos script"
+# execute this command in home directory
+# ln -s repos/newsday/virtual_machines
