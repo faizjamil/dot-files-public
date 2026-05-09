@@ -12,26 +12,6 @@ chmod -R 700 ~/.ssh
 chmod 600 ~/.ssh/authorized_keys
 ```
 
-## Cinnamon Settings to use
-
-In menu applett settings:
-Panel Height: 50
-
-In `Fonts`:
-
-* Default: Noto Sans Regular, size 16
-* Desktop: Noto Sans Regular, size 9
-* Document: Adwaita Sans Regular, size 11
-* Monospace: Noto Sans Mono Regular, size 10
-* Window title: Noto Sans Bold, size 12
-
-In `Themes`:
-
-* Mouse Pointer: Paper
-* Applications: Mint-Y-Dark-Aqua
-* Icon: Mint-Y-Aqua
-* Desktop: Mint-Y-Dark-Aqua
-
 ## Instructions
 
 1. Clone the repo such that the directory you are executing the bootstrap script from is `~/repos/dot-files-public`. You can use the command below
