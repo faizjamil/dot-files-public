@@ -116,7 +116,7 @@ then
 
   elif [[ $DISTRO = "fedora" ]]
   then
-    PACKAGES_TO_INSTALL+=(util-linux-user smplayer.x86_64 smplayer-themes.x86_64 redshift-gtk liberation-fonts cabextract xorg-x11-font-utils fontconfig mullvad-vpn)
+    PACKAGES_TO_INSTALL+=(util-linux-user smplayer.x86_64 smplayer-themes.x86_64 redshift-gtk liberation-fonts cabextract xorg-x11-font-utils fontconfig mullvad-vpn google-noto-fonts-all)
 
     echo "Enabling the Free and Nonfree RPM Fusion repos"
     sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
