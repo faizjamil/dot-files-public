@@ -76,7 +76,7 @@ plugins=(gitfast nvm zsh-interactive-cd ubuntu copyfile copypath eza systemadmin
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
- below is taken from cachyos zsh config at https://github.com/CachyOS/cachyos-zsh-config/blob/master/cachyos-config.zsh
+# below is taken from cachyos zsh config at https://github.com/CachyOS/cachyos-zsh-config/blob/master/cachyos-config.zsh
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
