@@ -25,6 +25,9 @@ checkDistro() {
         elif [[ -f "/etc/fedora-release" ]]
         then
           DISTRO="fedora"
+        elif [[ -f "/etc/arch-release" ]]
+        then
+          DISTRO="arch"
         else
           DISTRO="unknown"
         fi
@@ -48,10 +51,10 @@ fi
 DISTRO=$(checkDistro)
 if [[ ! $DISTRO = "ubuntu_wsl" ]]
 then
-  PACKAGES_TO_INSTALL+=(code vlc steam filezilla qbittorrent terminator mullvad-vpn)
+  PACKAGES_TO_INSTALL+=(code vlc steam filezilla qbittorrent konsole mullvad-vpn)
   if [[ $DISTRO = "ubuntu" || $DISTRO = "debian" ]]
   then 
-    PACKAGES_TO_INSTALL+=(firefox smplayer smplayer-themes redshift fonts-liberation ttf-mscorefonts-installer)
+    PACKAGES_TO_INSTALL+=(firefox redshift fonts-liberation fonts-atkinson-hyperlegible-next fonts-atkinson-hyperlegible fonts-noto fontconfig)
     echo "Adding repo for VS Code"
     echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
     echo "VS Code repo added"
@@ -86,11 +89,6 @@ then
     # 6. Update your package list
     sudo apt-get update
 
-    echo "Updating firmware for available devices"
-    sudo fwupdmgr get-devices -y
-    sudo fwupdmgr refresh --force -y
-    sudo fwupdmgr get-updates -y
-    sudo fwupdmgr update -y
 
     echo "Upgrading existing packages"
     sudo apt-get upgrade -y
@@ -108,15 +106,11 @@ then
     cd /tmp
     # install FTB APP
     # deb url: https://piston.feed-the-beast.com/app/ftb-app-linux-1.28.2-amd64.deb
-    echo "Installing FTB App"
-    wget -O ftb.deb https://piston.feed-the-beast.com/app/ftb-app-linux-1.28.2-amd64.deb
-    sudo apt-get install -y ./ftb.deb
-    echo "FTB App installed"
     echo "All specified native packages installed"
 
   elif [[ $DISTRO = "fedora" ]]
   then
-    PACKAGES_TO_INSTALL+=(util-linux-user smplayer.x86_64 smplayer-themes.x86_64 redshift-gtk liberation-fonts cabextract xorg-x11-font-utils fontconfig mullvad-vpn google-noto-fonts-all)
+    PACKAGES_TO_INSTALL+=(util-linux-user redshift-gtk liberation-fonts cabextract xorg-x11-font-utils fontconfig mullvad-vpn google-noto-fonts-all atkinson-hyperlegible-mono-fonts atkinson-hyperlegible-next-fonts)
 
     echo "Enabling the Free and Nonfree RPM Fusion repos"
     sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
@@ -127,12 +121,7 @@ then
     sudo dnf install -y dnf-plugins-core
     echo "rpmfusion repos enabled"
 
-    echo "Updating firmware for available devices"
-    sudo fwupdmgr get-devices -y
-    sudo fwupdmgr refresh --force -y
-    sudo fwupdmgr get-updates -y
-    sudo fwupdmgr update -y
-
+    
     echo "Adding Microsoft Repo for VS Code"
     sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
     echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
@@ -143,7 +132,13 @@ then
     # Add the Mullvad repository server to dnf
     sudo dnf config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
     echo "Repo for mullvad VPN added"
-
+    echo "Removing pre-installed firefox"
+    sudo dnf remove -y firefox
+    echo "firefox removed, will be installed from official mozilla repo"
+    echo "adding firefox repo from mozilla"
+    sudo dnf config-manager addrepo --id=mozilla --set=baseurl=https://packages.mozilla.org/rpm/firefox --set=gpgkey=https://packages.mozilla.org/rpm/firefox/signing-key.gpg --set=gpgcheck=1 --set=repo_gpgcheck=0 --set=priority=10
+    sudo dnf makecache --refresh
+    echo "Repo for firefox added, will be installed from there"
     echo "Upgrading existing packages"
     sudo dnf upgrade -y --refresh
     echo "Existing packages upgraded"
@@ -156,10 +151,6 @@ then
         echo "${PACKAGE} installed"  
     done
     
-    echo "Installing FTB App"
-    sudo dnf install -y https://piston.feed-the-beast.com/app/ftb-app-linux-1.28.2-x86_64.rpm
-    echo "Installed FTB App"
-
     echo "Installing packages for gstreamer applications"
     sudo dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel
     sudo dnf install -y lame\* --exclude=lame-devel
@@ -192,7 +183,7 @@ then
   echo -e "\n Adding Flathub remote to Flatpak \n"
   flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   echo "Flathub remote added to Flatpak"
-  FLATPAKS_TO_INSTALL=(us.zoom.Zoom com.slack.Slack com.discordapp.Discord org.keepassxc.KeePassXC org.prismlauncher.PrismLauncher com.github.tchx84.Flatseal)
+  FLATPAKS_TO_INSTALL=(us.zoom.Zoom com.slack.Slack com.discordapp.Discord org.keepassxc.KeePassXC org.prismlauncher.PrismLauncher com.github.tchx84.Flatseal dev.ftb.ftb-app io.github.mpc_qt.mpc-qt)
 
   echo "Installing all specified flatpaks"
   for FLATPAK in "${FLATPAKS_TO_INSTALL[@]}"
@@ -202,23 +193,31 @@ then
       echo "${FLATPAK} installed"  
   done
   echo "All specified flatpaks installed"
+  echo "Updating firmware for available devices"
+  sudo fwupdmgr get-devices -y
+  sudo fwupdmgr refresh --force -y
+  sudo fwupdmgr get-updates -y
+  sudo fwupdmgr update -y
+  echo "Firmware update for available devices complete"
 else
-    # assume is ubuntu WSL
-    sudo apt-get update
-    echo "Upgrading existing packages"
-    sudo apt-get upgrade -y
+  # assume is ubuntu WSL
+  sudo apt-get update
+  echo "Upgrading existing packages"
+  sudo apt-get upgrade -y
 
-    echo "Installing specified native packages"
-    for PACKAGE in "${PACKAGES_TO_INSTALL[@]}"
-    do 
-        echo "Installing ${PACKAGE}"  
-        sudo apt-get install -y ${PACKAGE}
-        echo "${PACKAGE} installed"  
-    done
+  echo "Installing specified native packages"
+  for PACKAGE in "${PACKAGES_TO_INSTALL[@]}"
+  do 
+    echo "Installing ${PACKAGE}"  
+    sudo apt-get install -y ${PACKAGE}
+    echo "${PACKAGE} installed"  
+  done
 
-    echo "All specified native packages installed"
+  echo "All specified native packages installed"
 fi
-
+echo "Installing zoxide"
+curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+echo "zoxide installed"
 echo "Installing oh-my-zsh and removing .zshrc from home directory"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
 echo "oh-my-zsh installed"
@@ -227,18 +226,20 @@ rm ~/.zshrc
 # if apt is on system
 if [[ $DISTRO = "ubuntu_wsl" || $DISTRO = "ubuntu" || $DISTRO = "debian" ]]
 then
-  ln -s ~/repos/dot-files-public/.dotfiles/.zshrc_apt ~/.zshrc
+  ln -s ~/repos/dot-files-public/.dotfiles/apt.zshrc ~/.zshrc
   echo "symlink to .zshrc created"
 elif [[ $DISTRO = "fedora" ]]
 then
-  ln -s ~/repos/dot-files-public/.dotfiles/.zshrc_dnf ~/.zshrc
+  ln -s ~/repos/dot-files-public/.dotfiles/dnf.zshrc ~/.zshrc
+  echo "symlink to .zshrc created"
+elif [[ $DISTRO = "arch" ]]
+then
+  ln -s ~/repos/dot-files-public/.dotfiles/pacman.zshrc ~/.zshrc
   echo "symlink to .zshrc created"
 else 
   echo "NOT ON UBUNTU OR FEDORA BASED SYSTEM, NOT SYMLINKING ZSHRC"
 fi
-echo "Installing deno"
-curl -fsSL https://deno.land/install.sh | bash -s -- --yes --no-modify-path
-echo "Deno installed"
+
 # install nvm without touching .zshrc
 echo "Installing nvm"
 PROFILE=/dev/null bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash'
@@ -253,7 +254,10 @@ cd ~/repos/dot-files-public
 echo "creating symlink to configs"
 ln -s ~/repos/dot-files-public/.dotfiles/.gitconfig ~/.gitconfig
 ln -s ~/repos/dot-files-public/.config/redshift ~/.config/redshift
-ln -s ~/repos/dot-files-public/.config/terminator ~/.config/terminator
+ln -s ~/repos/dot-files-public/.config/konsolerc ~/.config/konsolerc
+mkdir -p ~/.local/share/konsole
+ln -s ~/repos/dot-files-public/.config/konsole/Default.profile ~/.local/share/konsole/Default.profile
+# ln -s ~/repos/dot-files-public/.config/terminator ~/.config/terminator
 echo "symlinks created"
 # echo "Restoring Cinnamon config(s)"
 # cd ./cinnamon_config
