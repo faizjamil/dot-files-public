@@ -1,4 +1,4 @@
-# Add deno completions to search path
+# Add completions to search path
 if [[ ":$FPATH:" != *":$HOME/.zsh/completions:"* ]]; then export FPATH="$HOME/.zsh/completions:$FPATH"; fi
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -44,10 +44,10 @@ ZSH_THEME="nanotech"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -70,12 +70,31 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-# must install ripgrep, fzp, and yarn
-plugins=(gitfast zsh-interactive-cd ubuntu)
+plugins=(gitfast archlinux nvm zsh-interactive-cd copyfile copypath eza systemadmin extract)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+# below is taken from cachyos zsh config at https://github.com/CachyOS/cachyos-zsh-config/blob/master/cachyos-config.zsh
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Ignore commands that start with spaces and duplicates.
+
+export HISTCONTROL=ignoreboth
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Don't add certain commands to the history file.
+
+export HISTORY_IGNORE="(\&|[bf]g|c|clear|history|exit|q|pwd|* --help)"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Use custom `less` colors for `man` pages.
+
+export LESS_TERMCAP_md="$(tput bold 2> /dev/null; tput setaf 2 2> /dev/null)"
+export LESS_TERMCAP_me="$(tput sgr0 2> /dev/null)"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -102,40 +121,27 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # custom aliases
-# dnf stuff is commented out
-alias update="sudo apt update && sudo apt upgrade"
-
+# apt stuff is commented out
+alias update="sudo pacman -Syu"
 alias time="date "+%T""
 #alias cat='bat --paging=never'
 alias grep="rg"
-# alias for thefuck
+# alias for fuck
 #eval $(thefuck --alias)
 
 
 # Additions to PATH
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/sbin:$HOME/.local/bin:$PATH"
 
 # keepassxc env vars
 # export QT_AUTO_SCREEN_SCALE_FACTOR=1
 export QT_SCALE_FACTOR=2
 export QT_SCREEN_SCALE_FACTORS=2
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-. "$HOME/.deno/env"
-
-
-
-# fnm
-FNM_PATH="$HOME/.local/share/fnm"
-if [ -d "$FNM_PATH" ]; then
-  export PATH="$FNM_PATH:$PATH"
-  eval "`fnm env`"
-fi
-
-eval "$(fnm env --shell zsh)"
 
 
 # Initialize zsh completions (added by deno install script)
 autoload -Uz compinit
 compinit
+# zoxide setup
+eval "$(zoxide init zsh)"
