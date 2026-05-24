@@ -113,6 +113,7 @@ then
 
   elif [[ $DISTRO = "fedora" ]]
   then
+    
     PACKAGES_TO_INSTALL+=(util-linux-user redshift-gtk liberation-fonts cabextract xorg-x11-font-utils fontconfig mullvad-vpn google-noto-fonts-all atkinson-hyperlegible-mono-fonts atkinson-hyperlegible-next-fonts)
 
     echo "Enabling the Free and Nonfree RPM Fusion repos"
@@ -135,6 +136,10 @@ then
     # Add the Mullvad repository server to dnf
     sudo dnf config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
     echo "Repo for mullvad VPN added"
+    echo "Removing libreoffice"
+    sudo dnf group remove -y libreoffice
+    sudo dnf remove -y libreoffice*
+    echo "libreoffice removed"
     echo "Removing pre-installed firefox"
     sudo dnf remove -y firefox
     echo "firefox removed, will be installed from official mozilla repo"
