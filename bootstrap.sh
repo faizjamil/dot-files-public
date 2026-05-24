@@ -35,9 +35,9 @@ checkDistro() {
   then
     DISTRO="macOS"
   fi
-
   echo $DISTRO
 }
+
 PACKAGES_TO_INSTALL=(git python3 zsh fzf bat eza tealdeer gzip ripgrep ca-certificates)
 if [[ ! (-f "/bin/curl" || -f "/usr/bin/curl") ]]
 then
@@ -83,8 +83,12 @@ then
     ' | sudo tee /etc/apt/preferences.d/mozilla 
     # we are using firefox from official mozilla repo
     echo "removing unneeded packages"
-    sudo apt-get remove -y firefox transmission-gtk mintchat thunderbird thingy
-    echo "firefox, thunderbird, transmission, matrix, and thingy have been removed"
+    sudo apt-get remove -y firefox transmission-gtk mintchat thunderbird thingy rhythmbox sticky hypnotix
+    echo "firefox, thunderbird, transmission, matrix, thingy, rhythmbox, sticky, and hypnotix have been removed"
+    echo "removing libreoffice"
+    sudo apt-get remove -y --purge "libreoffice*"
+    sudo apt-get clean -y
+    sudo apt-get autoremove -y
     # 6. Update your package list
     sudo apt-get update
 
@@ -98,11 +102,11 @@ then
     for PACKAGE in "${PACKAGES_TO_INSTALL[@]}"
     do 
         echo "Installing ${PACKAGE}"  
-        sudo apt-get -y install  ${PACKAGE}
+        sudo apt-get -y install ${PACKAGE}
         echo "${PACKAGE} installed"  
     done
 
-    cd /tmp
+    # cd /tmp
     # install FTB APP
     # deb url: https://piston.feed-the-beast.com/app/ftb-app-linux-1.28.2-amd64.deb
     echo "All specified native packages installed"
@@ -187,9 +191,9 @@ then
   echo "Installing all specified flatpaks"
   for FLATPAK in "${FLATPAKS_TO_INSTALL[@]}"
   do 
-      echo "Installing ${FLATPAK} flatpak"  
-      flatpak install -y --noninteractive flathub ${FLATPAK}
-      echo "${FLATPAK} installed"  
+    echo "Installing ${FLATPAK} flatpak"  
+    flatpak install -y --noninteractive flathub ${FLATPAK}
+    echo "${FLATPAK} installed"  
   done
   echo "All specified flatpaks installed"
   echo "Updating firmware for available devices"
