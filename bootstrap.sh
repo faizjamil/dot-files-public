@@ -4,42 +4,41 @@ OS=$(uname -s)
 # echo $OS
 
 checkDistro() {
-    DISTRO=""
-    if [[ $OS = "Linux" ]]
-    then
-      if [[ -f "/etc/debian_version" ]]
+  DISTRO=""
+  if [[ $OS = "Linux" ]]
+  then
+    if [[ -f "/etc/debian_version" ]]
+      then
+        # echo "debian"
+        # we know it's debian based
+        if [[ -f "/etc/lsb-release" ]]
         then
-          # echo "debian"
-          # we know it's debian based
-          if [[ -f "/etc/lsb-release" ]]
+          if [[ -f "/usr/bin/wslinfo" ]]
           then
-            if [[ -f "/usr/bin/wslinfo" ]]
-            then
-                DISTRO="ubuntu_wsl"
-            else
-                DISTRO="ubuntu"
-            fi
+              DISTRO="ubuntu_wsl"
           else
-            DISTRO="debian"
+              DISTRO="ubuntu"
           fi
-        elif [[ -f "/etc/fedora-release" ]]
-        then
-          DISTRO="fedora"
-        elif [[ -f "/etc/arch-release" ]]
-        then
-          DISTRO="arch"
         else
-          DISTRO="unknown"
+          DISTRO="debian"
         fi
-    elif [[ $OS = "Darwin" ]]
-    then
-      DISTRO="macOS"
-    fi
+      elif [[ -f "/etc/fedora-release" ]]
+      then
+        DISTRO="fedora"
+      elif [[ -f "/etc/arch-release" ]]
+      then
+        DISTRO="arch"
+      else
+        DISTRO="unknown"
+      fi
+  elif [[ $OS = "Darwin" ]]
+  then
+    DISTRO="macOS"
+  fi
 
-    echo $DISTRO
-
+  echo $DISTRO
 }
-PACKAGES_TO_INSTALL=(git python3 zsh fzf bat)
+PACKAGES_TO_INSTALL=(git python3 zsh fzf bat eza tealdeer gzip ripgrep ca-certificates)
 if [[ ! (-f "/bin/curl" || -f "/usr/bin/curl") ]]
 then
   PACKAGES_TO_INSTALL+=(curl)
@@ -219,7 +218,10 @@ echo "Installing zoxide"
 curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 echo "zoxide installed"
 echo "Installing oh-my-zsh and removing .zshrc from home directory"
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
+# set env vars to prompt to set default shell to zsh and prevent ohmyzsh installer from touching .zshrc
+CHSH=yes
+RUNZSH=no
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --keep-zshrc
 echo "oh-my-zsh installed"
 rm ~/.zshrc
 
@@ -250,6 +252,13 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 nvm install --lts
 echo "Node.js LTS installed"
+echo "installing cheat"
+cd /tmp \
+  && wget https://github.com/cheat/cheat/releases/download/4.4.0/cheat-linux-amd64.gz \
+  && gunzip cheat-linux-amd64.gz \
+  && chmod +x cheat-linux-amd64 \
+  && sudo mv cheat-linux-amd64 /usr/local/bin/cheat
+echo "cheat installed"
 cd ~/repos/dot-files-public
 # create symlink to .gitconfig
 echo "creating symlink to configs"
