@@ -246,18 +246,23 @@ PROFILE=/dev/null bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm
 echo "nvm installed"
 # install latest node LTS version
 echo "Installing latest node.js LTS version"
-cd ~/.nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 nvm install --lts
 echo "Node.js LTS installed"
 cd ~/repos/dot-files-public
 # create symlink to .gitconfig
 echo "creating symlink to configs"
 ln -s ~/repos/dot-files-public/.dotfiles/.gitconfig ~/.gitconfig
-ln -s ~/repos/dot-files-public/.config/redshift ~/.config/redshift
-ln -s ~/repos/dot-files-public/.config/konsolerc ~/.config/konsolerc
-mkdir -p ~/.local/share/konsole
-ln -s ~/repos/dot-files-public/.config/konsole/Default.profile ~/.local/share/konsole/Default.profile
-# ln -s ~/repos/dot-files-public/.config/terminator ~/.config/terminator
+if [[ ! $DISTRO = "ubuntu_wsl" ]]
+then
+  ln -s ~/repos/dot-files-public/.config/redshift ~/.config/redshift
+  ln -s ~/repos/dot-files-public/.config/konsolerc ~/.config/konsolerc
+  mkdir -p ~/.local/share/konsole
+  ln -s ~/repos/dot-files-public/.config/konsole/Default.profile ~/.local/share/konsole/Default.profile
+  ln -s ~/repos/dot-files-public/.config/terminator ~/.config/terminator
+fi
+
 echo "symlinks created"
 # echo "Restoring Cinnamon config(s)"
 # cd ./cinnamon_config
