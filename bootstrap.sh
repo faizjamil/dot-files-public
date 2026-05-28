@@ -8,29 +8,29 @@ checkDistro() {
   if [[ $OS = "Linux" ]]
   then
     if [[ -f "/etc/debian_version" ]]
+    then
+      # echo "debian"
+      # we know it's debian based
+      if [[ -f "/etc/lsb-release" ]]
       then
-        # echo "debian"
-        # we know it's debian based
-        if [[ -f "/etc/lsb-release" ]]
+        if [[ -f "/usr/bin/wslinfo" ]]
         then
-          if [[ -f "/usr/bin/wslinfo" ]]
-          then
-              DISTRO="ubuntu_wsl"
-          else
-              DISTRO="ubuntu"
-          fi
+            DISTRO="ubuntu_wsl"
         else
-          DISTRO="debian"
+            DISTRO="ubuntu"
         fi
-      elif [[ -f "/etc/fedora-release" ]]
-      then
-        DISTRO="fedora"
-      elif [[ -f "/etc/arch-release" ]]
-      then
-        DISTRO="arch"
       else
-        DISTRO="unknown"
+        DISTRO="debian"
       fi
+    elif [[ -f "/etc/fedora-release" ]]
+    then
+      DISTRO="fedora"
+    elif [[ -f "/etc/arch-release" ]]
+    then
+      DISTRO="arch"
+    else
+      DISTRO="unknown"
+    fi
   elif [[ $OS = "Darwin" ]]
   then
     DISTRO="macOS"
@@ -248,7 +248,7 @@ then
   ln -s ~/repos/dot-files-public/.dotfiles/pacman.zshrc ~/.zshrc
   echo "symlink to .zshrc created"
 else 
-  echo "NOT ON UBUNTU OR FEDORA BASED SYSTEM, NOT SYMLINKING ZSHRC"
+  echo "NOT ON UBUNTU, FEDORA, OR ARCH BASED SYSTEM, NOT SYMLINKING ZSHRC"
 fi
 
 # install nvm without touching .zshrc
@@ -278,7 +278,7 @@ then
   ln -s ~/repos/dot-files-public/.config/konsolerc ~/.config/konsolerc
   mkdir -p ~/.local/share/konsole
   ln -s ~/repos/dot-files-public/.config/konsole/Default.profile ~/.local/share/konsole/Default.profile
-  ln -s ~/repos/dot-files-public/.config/terminator ~/.config/terminator
+  # ln -s ~/repos/dot-files-public/.config/terminator ~/.config/terminator
 fi
 
 echo "symlinks created"
