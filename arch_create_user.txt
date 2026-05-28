@@ -1,0 +1,22 @@
+# create new user
+useradd -m faizan
+# create password for new user
+passwd faizan
+# add user to wheel group
+
+usermod -aG wheel faizan
+
+# to set the editor for visudo to rnano system wide, copy/paste this into /etc/sudoers.d/10-editor
+
+# Set default EDITOR to restricted version of nano.
+Defaults      editor=/usr/bin/rnano
+
+# create file to add users to wheel group
+EDITOR=nano visudo /etc/sudoers.d/10-wheel
+
+# paste the following into that file
+%wheel      ALL=(ALL:ALL) ALL
+
+# disable logging in using root account
+passwd --lock root
+# use sudoedit instead of sudo nano or something similar to edit files
