@@ -1,3 +1,4 @@
 .access_token
 install.sh
 *.rpm
+.DS_Store
