@@ -1,6 +1,8 @@
 #!/bin/bash
+# install by downloading this script and running it with bash
+# curl -s -L "https://raw.githubusercontent.com/faizjamil/dot-files-public/main/base_arch_packages_install.sh" | bash
 echo "Getting updated list of best mirrors"
-reflector --country US,CA --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+reflector --country US,CA --protocol https --latest 20 --sort age --save /etc/pacman.d/mirrorlist
 echo "Updated mirrorlist saved to /etc/pacman.d/mirrorlist"
 
 echo "Installing base packages to /mnt..."
