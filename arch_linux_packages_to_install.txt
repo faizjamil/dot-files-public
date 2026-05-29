@@ -1,18 +1,7 @@
-base
-base-devel
-git
-linux-firmware
-intel-ucode
-sudo
-zsh
 bat
 eza
 ripgrep
 konsole
-nano
-man-db
-man-pages
-texinfo
 cinnamon
 xed
 xviewer
@@ -25,8 +14,3 @@ ttf-noto
 otf-atkinson-hyperlegible
 unzip
 flatpak
-which
-# filesystem stuff
-e2fsprogs
-dosfstools
-exfatprogs

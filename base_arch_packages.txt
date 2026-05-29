@@ -1,0 +1,12 @@
+base
+base-devel
+git
+linux-firmware
+intel-ucode
+zsh
+nano
+man-db
+man-pages
+e2fsprogs
+dosfstools
+exfatprogs
