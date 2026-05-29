@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 # install by downloading this script and running it with bash
 # curl -s -L "https://raw.githubusercontent.com/faizjamil/dot-files-public/main/base_arch_packages_install.sh" | bash
 echo "Getting updated list of best mirrors"

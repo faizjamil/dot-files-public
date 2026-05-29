@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 # copy Windows fonts to Linux
 sudo mkdir -p /usr/local/share/fonts/WindowsFonts
 # unzip fonts to folder
