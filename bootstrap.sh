@@ -35,10 +35,10 @@ checkDistro() {
   then
     DISTRO="macOS"
   fi
-  echo $DISTRO
+  # echo $DISTRO
 }
 
-PACKAGES_TO_INSTALL=(git python3 zsh fzf bat eza tealdeer gzip ripgrep ca-certificates)
+PACKAGES_TO_INSTALL=(zsh fzf bat eza tealdeer ripgrep)
 if [[ ! (-f "/bin/curl" || -f "/usr/bin/curl") ]]
 then
   PACKAGES_TO_INSTALL+=(curl)
@@ -47,13 +47,22 @@ if [[ ! (-f "/bin/wget" || -f "/usr/bin/wget") ]]
 then
   PACKAGES_TO_INSTALL+=(wget)
 fi
+if [[ ! (-f "/bin/git" || -f "/usr/bin/git") ]]
+then
+  PACKAGES_TO_INSTALL+=(git)
+fi
+if [[ ! (-f "/bin/gzip" || -f "/usr/bin/gzip") ]]
+then
+  PACKAGES_TO_INSTALL+=(gzip)
+fi
+
 DISTRO=$(checkDistro)
 if [[ ! $DISTRO = "ubuntu_wsl" ]]
 then
-  PACKAGES_TO_INSTALL+=(code vlc steam filezilla qbittorrent konsole mullvad-vpn)
+  PACKAGES_TO_INSTALL+=(firefox vlc steam filezilla qbittorrent konsole mullvad-vpn)
   if [[ $DISTRO = "ubuntu" || $DISTRO = "debian" ]]
   then 
-    PACKAGES_TO_INSTALL+=(firefox redshift fonts-liberation fonts-atkinson-hyperlegible-next fonts-atkinson-hyperlegible fonts-noto fontconfig)
+    PACKAGES_TO_INSTALL+=(code redshift fonts-liberation fonts-atkinson-hyperlegible-next fonts-atkinson-hyperlegible fonts-noto fontconfig)
     echo "Adding repo for VS Code"
     echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
     echo "VS Code repo added"
@@ -114,7 +123,7 @@ then
   elif [[ $DISTRO = "fedora" ]]
   then
     
-    PACKAGES_TO_INSTALL+=(util-linux-user redshift-gtk liberation-fonts cabextract xorg-x11-font-utils fontconfig mullvad-vpn google-noto-fonts-all atkinson-hyperlegible-mono-fonts atkinson-hyperlegible-next-fonts)
+    PACKAGES_TO_INSTALL+=(util-linux-user redshift-gtk liberation-fonts cabextract xorg-x11-font-utils fontconfig google-noto-fonts-all atkinson-hyperlegible-mono-fonts atkinson-hyperlegible-next-fonts)
 
     echo "Enabling the Free and Nonfree RPM Fusion repos"
     sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
@@ -181,6 +190,12 @@ then
     echo "Installing Microsoft fonts"
     sudo dnf install -y https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
     echo "Microsoft fonts installed"
+    echo "All specified native packages installed"
+  elif [[ $DISTRO = "arch" ]]
+  then
+    PACKAGES_TO_INSTALL+=(fwupd vlc-plugins-extra firefox cinnamon xed xviewer xreader lightdm-slick-greeter nftables cups-pdf ttf-croscore ttf-noto otf-atkinson-hyperlegible unzip flatpak sbctl)
+    echo "Installing all specified native packages"
+    sudo pacman -S $PACKAGES_TO_INSTALL
     echo "All specified native packages installed"
   fi
   cd ~/repos/dot-files-public

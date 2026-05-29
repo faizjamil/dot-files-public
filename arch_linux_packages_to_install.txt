@@ -14,3 +14,4 @@ ttf-noto
 otf-atkinson-hyperlegible
 unzip
 flatpak
+sbctl
