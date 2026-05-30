@@ -1,0 +1,68 @@
+# Install Arch Linux
+
+This is for my own records, if you are reading this you likely won't find much use for the following text.
+
+For the most part if you want to install arch, [read the wiki](https://wiki.archlinux.org/title/Installation_guide) and if you want secure boot [read CachyOS's page on it.](https://wiki.cachyos.org/configuration/secure_boot_setup/)
+
+I'm only noting down any deviations or customizations from the [Arch Wiki installation guide](https://wiki.archlinux.org/title/Installation_guide) I make for my particular arch setup.
+
+## Pre-install
+
+In the live boot environment execute the following command to set the font to something readable (for me)
+
+```sh
+setfont ter-132b --double
+```
+
+## Installation
+
+Run the folliowing command to run a script to automate the following steps.
+
+```sh
+curl -s -L "https://raw.githubusercontent.com/faizjamil/dot-files-public/main/base_arch_packages_install.sh" | bash
+```
+
+### Select mirrors using reflector
+
+Run this command, confirm the output, and run it again with the flag `--save /etc/pacman.d/mirrorlist`
+
+```sh
+reflector --country US,CA --protocol https --latest 20 --sort age 
+```
+
+This grabs the 20 most recently synced HTTPS mirrors in the US and CA.
+
+### Install essential packages
+
+****
+Per [the script in this repo](base_arch_packages_install.sh)
+
+```sh
+pacstrap -K /mnt base base-devel git linux-firmware intel-ucode nano man-db man-pages e2fsprogs dosfstools exfatprogs
+```
+
+[Look up these packages](https://archlinux.org/packages/) if you don't know what they do but they should be self-explanatory
+
+- `dosfstools` is for working with FAT32 partitions
+
+- `e2fsprogs` is for ext4 (also ext2 and ext3 but I don't care about either of those)
+
+- `exfatprogs` is for ExFAT partitions
+
+## Configure
+
+For setting up `systemd-boot`
+
+Note: `esp` here is a placeholder for the path to the EFI System Parition
+
+1. Run `bootctl install`
+2. Copy [loader.conf](.config/systemd-boot/loader.conf) to `esp/loader`
+3. Get the UUID of arch drive using `lsblk --fs` and paste the UUID into both `arch.conf` and `arch-fallback.conf`
+4. Copy [arch.conf](.config/systemd-boot/arch.conf) and [arch-fallback.conf](.config/systemd-boot/arch-fallback.conf) to `esp/loader/entries`
+5. Setup Secure Boot using `sbctl` taking note to execute the following command for signing **the bootloader specifically** to allow for `sbctl`'s pacman hook to run and auto-sign on a bootloader update. You still need to sign the other require files as per `sbctl`'s docs
+
+```sh
+sbctl sign -s -o /usr/lib/systemd/boot/efi/systemd-bootx64.efi.signed /usr/lib/systemd/boot/efi/systemd-bootx64.efi
+```
+
+1. Reboot and enable Secure Boot in UEFI settings.
