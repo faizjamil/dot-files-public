@@ -49,6 +49,8 @@ pacstrap -K /mnt base base-devel git linux-firmware intel-ucode nano man-db man-
 
 - `exfatprogs` is for ExFAT partitions
 
+After installing essential packages, reboot into BIOS and enter Setup Mode to setup secure boot.
+
 ## Configure
 
 For setting up `systemd-boot`
@@ -61,8 +63,14 @@ Note: `esp` here is a placeholder for the path to the EFI System Parition
 4. Copy [arch.conf](.config/systemd-boot/arch.conf) and [arch-fallback.conf](.config/systemd-boot/arch-fallback.conf) to `esp/loader/entries`
 5. Setup Secure Boot using `sbctl` taking note to execute the following command for signing **the bootloader specifically** to allow for `sbctl`'s pacman hook to run and auto-sign on a bootloader update. You still need to sign the other require files as per `sbctl`'s docs
 
-```sh
-sbctl sign -s -o /usr/lib/systemd/boot/efi/systemd-bootx64.efi.signed /usr/lib/systemd/boot/efi/systemd-bootx64.efi
-```
+  ```sh
+  sbctl sign -s -o /usr/lib/systemd/boot/efi/systemd-bootx64.efi.signed /usr/lib/systemd/boot/efi/systemd-bootx64.efi
+  ```
+  
+6. Reboot and enable Secure Boot in UEFI settings.
 
-1. Reboot and enable Secure Boot in UEFI settings.
+## Additional notes
+
+- [Enable the `multilib` repo](https://wiki.archlinux.org/title/Official_repositories#multilib)
+- Use [arch_create_user.txt](arch_create_user.txt) to create a non-root user, setup sudo access, and disable the root user
+- Start any needed services such as lightdm, networkmanager, etc. (add more later)
