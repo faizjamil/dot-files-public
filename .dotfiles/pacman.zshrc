@@ -121,8 +121,10 @@ export LESS_TERMCAP_me="$(tput sgr0 2> /dev/null)"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # custom aliases
-# apt stuff is commented out
-alias update="sudo pacman -Syu"
+# two -ys to force refresh **all** package databases instead of just the master one
+# source: https://pacman.archlinux.page/pacman.8.html#_sync_options_apply_to_em_s_em_a_id_so_a
+# DO NOT USE -Syyu AS IT PUTS AN EXTRA BURDEN ON MIRRORS
+alias update="sudo yay -Syu"
 alias time="date "+%T""
 #alias cat='bat --paging=never'
 alias grep="rg"

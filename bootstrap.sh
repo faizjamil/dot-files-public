@@ -195,10 +195,23 @@ then
     echo "All specified native packages installed"
   elif [[ $DISTRO = "arch" ]]
   then
-    PACKAGES_TO_INSTALL+=(fwupd vlc-plugins-extra lightdm cinnamon xed xviewer xreader lightdm-slick-greeter nftables cups-pdf ttf-croscore ttf-noto otf-atkinson-hyperlegible unzip flatpak ttf-liberation mesa vulkan-radeon lib32-mesa lib32-vulkan-radeon)
+    PACKAGES_TO_INSTALL+=(fwupd vlc-plugins-extra lightdm cinnamon xed xviewer xreader lightdm-slick-greeter nftables cups ttf-croscore ttf-noto otf-atkinson-hyperlegible unzip flatpak ttf-liberation mesa vulkan-radeon lib32-mesa lib32-vulkan-radeon)
     echo "Installing all specified native packages"
     sudo pacman -S $PACKAGES_TO_INSTALL
     echo "All specified native packages installed"
+    echo "Installing yay (AUR helper)"
+    sudo pacman -S --needed git base-devel && cd /tmp && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+    echo "yay installed"
+    echo "Enabling all needed services"
+    # we are enabling lightdm, nftables, and cups (for printing) with its pdf backend
+    sudo systemctl enable NetworkManager.service
+    sudo systemctl enable NetworkManager-wait-online.service
+    sudo systemctl enable lightdm.service
+    sudo systemctl enable nftables.service
+    sudo systemctl enable fwupd.service
+    sudo systemctl enable cups.socket
+
+    echo "All needed services enabled"
   fi
   cd ~/repos/dot-files-public
 
