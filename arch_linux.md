@@ -71,6 +71,6 @@ Note: `esp` here is a placeholder for the path to the EFI System Parition
 
 ## Additional notes
 
-- [Enable the `multilib` repo](https://wiki.archlinux.org/title/Official_repositories#multilib)
+- [Enable the `multilib` repo](https://wiki.archlinux.org/title/Official_repositories#multilib) **before** running `bootstrap.sh`
 - Use [arch_create_user.txt](arch_create_user.txt) to create a non-root user, setup sudo access, and disable the root user
 - Start any needed services such as lightdm, networkmanager, etc. (add more later)
