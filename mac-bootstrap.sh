@@ -1,4 +1,5 @@
 #!/bin/zsh
+
 # REQUIRES THE FOLLOWING FILES TO BE IN THE SAME DIRECTORY
 # .zshrc
 # gen_ssh_key

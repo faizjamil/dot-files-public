@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # this file will be used to aid setting up a system
 # for now i will simply be making symlinks to the dotfiles in this repo as needed
 # the following creates a symlink to my .zshrc file

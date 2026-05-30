@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 echo "Removing existing driver"
 sudo dnf -y remove xorg-x11-drv-nvidia\*
 echo "Installing NVIDIA GPU driver"
