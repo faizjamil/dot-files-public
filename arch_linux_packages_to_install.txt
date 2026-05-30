@@ -8,7 +8,7 @@ xviewer
 xreader
 lightdm-slick-greeter
 nftables
-cups-pdf
+# cups-pdf
 ttf-croscore
 ttf-noto
 otf-atkinson-hyperlegible
