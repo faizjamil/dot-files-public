@@ -37,7 +37,7 @@ checkDistro() {
   then
     DISTRO="macOS"
   fi
-  # echo $DISTRO
+  echo $DISTRO
 }
 
 PACKAGES_TO_INSTALL=(zsh fzf bat eza tealdeer ripgrep)
