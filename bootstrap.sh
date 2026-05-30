@@ -208,7 +208,7 @@ then
     sudo systemctl enable NetworkManager-wait-online.service
     sudo systemctl enable lightdm.service
     sudo systemctl enable nftables.service
-    sudo systemctl enable fwupd.service
+    # sudo systemctl enable fwupd.service
     sudo systemctl enable cups.socket
 
     echo "All needed services enabled"
