@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# NOTE: WE ARE INSTALLING LIBERATION FONTS TO PREVENT ANY FONT ISSUES WITH STEAM
+
 OS=$(uname -s)
 # echo $OS
 
@@ -193,7 +195,7 @@ then
     echo "All specified native packages installed"
   elif [[ $DISTRO = "arch" ]]
   then
-    PACKAGES_TO_INSTALL+=(fwupd vlc-plugins-extra firefox cinnamon xed xviewer xreader lightdm-slick-greeter nftables cups-pdf ttf-croscore ttf-noto otf-atkinson-hyperlegible unzip flatpak sbctl)
+    PACKAGES_TO_INSTALL+=(fwupd vlc-plugins-extra cinnamon xed xviewer xreader lightdm-slick-greeter nftables cups-pdf ttf-croscore ttf-noto otf-atkinson-hyperlegible unzip flatpak ttf-liberation mesa vulkan-radeon lib32-mesa lib32-vulkan-radeon)
     echo "Installing all specified native packages"
     sudo pacman -S $PACKAGES_TO_INSTALL
     echo "All specified native packages installed"

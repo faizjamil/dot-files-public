@@ -14,4 +14,10 @@ ttf-noto
 otf-atkinson-hyperlegible
 unzip
 flatpak
-sbctl
+# steam-related
+ttf-liberation
+mesa
+vulkan-radeon
+## ENABLE MULTILIB REPO BEFORE INSTALLING THESE
+lib32-mesa
+lib32-vulkan-radeon

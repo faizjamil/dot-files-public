@@ -9,4 +9,4 @@ reflector --country US,CA --protocol https --latest 20 --sort age --save /etc/pa
 echo "Updated mirrorlist saved to /etc/pacman.d/mirrorlist"
 
 echo "Installing base packages to /mnt..."
-pacstrap -K /mnt base base-devel git linux-firmware intel-ucode nano man-db man-pages e2fsprogs dosfstools exfatprogs
+pacstrap -K /mnt base base-devel git linux-firmware intel-ucode nano man-db man-pages e2fsprogs dosfstools exfatprogs sbctl
