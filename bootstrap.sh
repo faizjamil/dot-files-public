@@ -223,7 +223,7 @@ then
   echo -e "\n Adding Flathub remote to Flatpak \n"
   flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   echo "Flathub remote added to Flatpak"
-  FLATPAKS_TO_INSTALL=(us.zoom.Zoom com.slack.Slack com.discordapp.Discord org.keepassxc.KeePassXC org.prismlauncher.PrismLauncher com.github.tchx84.Flatseal dev.ftb.ftb-app io.github.mpc_qt.mpc-qt)
+  FLATPAKS_TO_INSTALL=(us.zoom.Zoom com.slack.Slack com.discordapp.Discord org.keepassxc.KeePassXC org.prismlauncher.PrismLauncher com.github.tchx84.Flatseal dev.ftb.ftb-app io.github.mpc_qt.mpc-qt md.obsidian.Obsidian)
 
   echo "Installing all specified flatpaks"
   for FLATPAK in "${FLATPAKS_TO_INSTALL[@]}"
