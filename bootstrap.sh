@@ -195,7 +195,7 @@ then
     echo "All specified native packages installed"
   elif [[ $DISTRO = "arch" ]]
   then
-    PACKAGES_TO_INSTALL+=(fwupd vlc-plugins-extra lightdm cinnamon xed xviewer xreader lightdm-slick-greeter nftables ttf-croscore ttf-noto otf-atkinson-hyperlegible unzip flatpak ttf-liberation mesa vulkan-radeon lib32-mesa lib32-vulkan-radeon)
+    PACKAGES_TO_INSTALL+=(fwupd vlc-plugins-extra lightdm cinnamon xed xviewer xreader lightdm-slick-greeter nftables ttf-croscore ttf-noto otf-atkinson-hyperlegible unzip flatpak ttf-liberation mesa vulkan-radeon lib32-mesa lib32-vulkan-radeon pacman-contrib reflector)
     echo "Installing all specified native packages"
     sudo pacman -S $PACKAGES_TO_INSTALL
     echo "All specified native packages installed"
@@ -208,6 +208,7 @@ then
     sudo systemctl enable NetworkManager-wait-online.service
     sudo systemctl enable lightdm.service
     sudo systemctl enable nftables.service
+    sudo systemctl enable reflector.timer
     # sudo systemctl enable fwupd.service
     # not installing cups since I don't have a printer
     # sudo systemctl enable cups.socket

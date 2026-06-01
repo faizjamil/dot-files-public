@@ -14,6 +14,8 @@ ttf-noto
 otf-atkinson-hyperlegible
 unzip
 flatpak
+pacman-contrib
+reflector
 # steam-related
 ttf-liberation
 mesa
