@@ -204,11 +204,14 @@ then
     echo "yay installed"
     echo "Enabling all needed services"
     # we are enabling lightdm, nftables, and cups (for printing) with its pdf backend
-    sudo systemctl enable NetworkManager.service
-    sudo systemctl enable NetworkManager-wait-online.service
-    sudo systemctl enable lightdm.service
-    sudo systemctl enable nftables.service
-    sudo systemctl enable reflector.timer
+    sudo systemctl enable --now NetworkManager.service
+    sudo systemctl enable --now NetworkManager-wait-online.service
+    sudo systemctl enable --now lightdm.service
+    sudo systemctl enable --now nftables.service
+    sudo systemctl enable --now reflector.timer
+    sudo systemctl disable --now systemd-timesyncd.service
+    sudo systemctl enable --now chronyd.service
+    sudo systemctl enable --now tuned.service
     # sudo systemctl enable fwupd.service
     # not installing cups since I don't have a printer
     # sudo systemctl enable cups.socket
