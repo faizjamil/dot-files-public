@@ -195,7 +195,7 @@ then
     echo "All specified native packages installed"
   elif [[ $DISTRO = "arch" ]]
   then
-    PACKAGES_TO_INSTALL+=(fwupd vlc-plugins-extra lightdm cinnamon xed xviewer xreader lightdm-slick-greeter nftables ttf-croscore ttf-noto otf-atkinson-hyperlegible unzip flatpak ttf-liberation mesa vulkan-radeon lib32-mesa lib32-vulkan-radeon pacman-contrib reflector)
+    PACKAGES_TO_INSTALL+=(fwupd vlc-plugins-extra lightdm cinnamon xed xviewer xreader lightdm-slick-greeter nftables ttf-croscore ttf-noto otf-atkinson-hyperlegible unzip flatpak ttf-liberation mesa vulkan-radeon lib32-mesa lib32-vulkan-radeon pacman-contrib reflector chrony tuned sbctl)
     echo "Installing all specified native packages"
     sudo pacman -S $PACKAGES_TO_INSTALL
     echo "All specified native packages installed"
