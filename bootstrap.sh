@@ -200,7 +200,7 @@ then
     for PACKAGE in "${PACKAGES_TO_INSTALL[@]}"
     do 
         echo "Installing ${PACKAGE}"  
-        sudo pacman -S install ${PACKAGE}
+        sudo pacman -S ${PACKAGE}
         echo "${PACKAGE} installed"  
     done
     echo "All specified native packages installed"
