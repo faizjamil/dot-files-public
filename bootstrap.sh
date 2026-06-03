@@ -197,7 +197,12 @@ then
   then
     PACKAGES_TO_INSTALL+=(fwupd vlc-plugins-extra lightdm cinnamon xed xviewer xreader lightdm-slick-greeter nftables ttf-croscore ttf-noto otf-atkinson-hyperlegible unzip flatpak ttf-liberation mesa vulkan-radeon lib32-mesa lib32-vulkan-radeon pacman-contrib reflector chrony tuned sbctl earlyoom)
     echo "Installing all specified native packages"
-    sudo pacman -S $PACKAGES_TO_INSTALL
+    for PACKAGE in "${PACKAGES_TO_INSTALL[@]}"
+    do 
+        echo "Installing ${PACKAGE}"  
+        sudo pacman -S install ${PACKAGE}
+        echo "${PACKAGE} installed"  
+    done
     echo "All specified native packages installed"
     echo "Installing yay (AUR helper)"
     sudo pacman -S --needed git base-devel && cd /tmp && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
