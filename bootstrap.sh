@@ -195,7 +195,7 @@ then
     echo "All specified native packages installed"
   elif [[ $DISTRO = "arch" ]]
   then
-    PACKAGES_TO_INSTALL+=(fwupd vlc-plugins-extra lightdm cinnamon xed xviewer xreader lightdm-slick-greeter nftables ttf-croscore ttf-noto otf-atkinson-hyperlegible unzip flatpak ttf-liberation mesa vulkan-radeon lib32-mesa lib32-vulkan-radeon pacman-contrib reflector chrony tuned sbctl)
+    PACKAGES_TO_INSTALL+=(fwupd vlc-plugins-extra lightdm cinnamon xed xviewer xreader lightdm-slick-greeter nftables ttf-croscore ttf-noto otf-atkinson-hyperlegible unzip flatpak ttf-liberation mesa vulkan-radeon lib32-mesa lib32-vulkan-radeon pacman-contrib reflector chrony tuned sbctl earlyoom)
     echo "Installing all specified native packages"
     sudo pacman -S $PACKAGES_TO_INSTALL
     echo "All specified native packages installed"
@@ -212,6 +212,7 @@ then
     sudo systemctl disable --now systemd-timesyncd.service
     sudo systemctl enable --now chronyd.service
     sudo systemctl enable --now tuned.service
+    sudo systemctl enable --now earlyoom.service
     # sudo systemctl enable fwupd.service
     # not installing cups since I don't have a printer
     # sudo systemctl enable cups.socket
