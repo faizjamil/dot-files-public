@@ -14,6 +14,14 @@ In the live boot environment execute the following command to set the font to so
 setfont ter-132b --double
 ```
 
+### Partitions
+
+Create three partitions
+
+1. 1 GiB ESP
+2. 4 GiB Swap Partition
+3. Use remaining space for Linux x86-64 root (filesystem type in cfdisk)
+
 ## Installation
 
 Run the folliowing command to run a script to automate the following steps.
@@ -53,6 +61,8 @@ After installing essential packages, reboot into BIOS and enter Setup Mode to se
 
 ## Configure
 
+For time setup run `hwclock --systohc --local` and/or `timedatectl set-local-rtc 1 --adjust-system-clock` (outside chroot)
+
 For setting up `systemd-boot`
 
 Note: `esp` here is a placeholder for the path to the EFI System Parition
@@ -61,7 +71,7 @@ Note: `esp` here is a placeholder for the path to the EFI System Parition
 2. Copy [loader.conf](.config/systemd-boot/loader.conf) to `esp/loader`
 3. Get the UUID of arch drive using `lsblk --fs` and paste the UUID into both `arch.conf` and `arch-fallback.conf`
 4. Copy [arch.conf](.config/systemd-boot/arch.conf) and [arch-fallback.conf](.config/systemd-boot/arch-fallback.conf) to `esp/loader/entries`
-5. Setup Secure Boot using `sbctl` taking note to execute the following command for signing **the bootloader specifically** to allow for `sbctl`'s pacman hook to run and auto-sign on a bootloader update. You still need to sign the other require files as per `sbctl`'s docs
+5. Setup Secure Boot using `sbctl` taking note to execute the following command for signing **the bootloader specifically** to allow for `sbctl`'s pacman hook to run and auto-sign on a bootloader update. You still need to sign the other required files as per `sbctl`'s docs
 
   ```sh
   sbctl sign -s -o /usr/lib/systemd/boot/efi/systemd-bootx64.efi.signed /usr/lib/systemd/boot/efi/systemd-bootx64.efi
