@@ -195,7 +195,7 @@ then
     echo "All specified native packages installed"
   elif [[ $DISTRO = "arch" ]]
   then
-    PACKAGES_TO_INSTALL+=(fwupd vlc-plugins-extra lightdm cinnamon xed xviewer xreader lightdm-slick-greeter nftables ttf-croscore ttf-noto otf-atkinson-hyperlegible unzip flatpak ttf-liberation mesa vulkan-radeon lib32-mesa lib32-vulkan-radeon pacman-contrib reflector chrony tuned sbctl earlyoom)
+    PACKAGES_TO_INSTALL+=(fwupd vlc-plugins-extra lightdm lightdm-slick-greeter cinnamon xed xviewer xreader nftables ttf-croscore ttf-noto otf-atkinson-hyperlegible unzip flatpak ttf-liberation mesa vulkan-radeon lib32-mesa lib32-vulkan-radeon pacman-contrib reflector chrony tuned sbctl earlyoom e2fsprogs dosfstools exfatprogs)
     echo "Installing all specified native packages"
     for PACKAGE in "${PACKAGES_TO_INSTALL[@]}"
     do 
@@ -209,15 +209,15 @@ then
     echo "yay installed"
     echo "Enabling all needed services"
     # we are enabling lightdm, nftables, and cups (for printing) with its pdf backend
-    sudo systemctl enable --now NetworkManager.service
-    sudo systemctl enable --now NetworkManager-wait-online.service
-    sudo systemctl enable --now lightdm.service
-    sudo systemctl enable --now nftables.service
-    sudo systemctl enable --now reflector.timer
-    sudo systemctl disable --now systemd-timesyncd.service
-    sudo systemctl enable --now chronyd.service
-    sudo systemctl enable --now tuned.service
-    sudo systemctl enable --now earlyoom.service
+    sudo systemctl enable NetworkManager.service
+    sudo systemctl enable NetworkManager-wait-online.service
+    sudo systemctl enable lightdm.service
+    sudo systemctl enable nftables.service
+    sudo systemctl enable reflector.timer
+    sudo systemctl disable systemd-timesyncd.service
+    sudo systemctl enable chronyd.service
+    sudo systemctl enable tuned.service
+    sudo systemctl enable earlyoom.service
     # sudo systemctl enable fwupd.service
     # not installing cups since I don't have a printer
     # sudo systemctl enable cups.socket
