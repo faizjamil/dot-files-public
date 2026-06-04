@@ -71,7 +71,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 # must install ripgrep, fzp, and yarn
-plugins=(gitfast ubuntu nvm zsh-interactive-cd copyfile copypath eza systemadmin extract)
+plugins=(gitfast ubuntu nvm zsh-interactive-cd copyfile copypath eza systemadmin extract aliases)
 
 source $ZSH/oh-my-zsh.sh
 

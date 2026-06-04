@@ -70,7 +70,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(gitfast archlinux nvm zsh-interactive-cd copyfile copypath eza systemadmin extract)
+plugins=(gitfast archlinux nvm zsh-interactive-cd copyfile copypath eza systemadmin extract aliases)
 
 source $ZSH/oh-my-zsh.sh
 
