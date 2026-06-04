@@ -69,8 +69,8 @@ Note: `esp` here is a placeholder for the path to the EFI System Parition
 
 1. Run `bootctl install`
 2. Copy [loader.conf](.config/systemd-boot/loader.conf) to `esp/loader`
-3. Get the UUID of arch drive using `lsblk --fs` and paste the UUID into both `arch.conf` and `arch-fallback.conf`
-4. Copy [arch.conf](.config/systemd-boot/arch.conf) and [arch-fallback.conf](.config/systemd-boot/arch-fallback.conf) to `esp/loader/entries`
+3. Get the UUID of arch drive using `blkid` and paste the UUID into both `arch.conf` and `arch-fallback.conf`
+4. Copy [arch.conf](.config/systemd-boot/arch.conf) to `esp/loader/entries`
 5. Setup Secure Boot using `sbctl` taking note to execute the following command for signing **the bootloader specifically** to allow for `sbctl`'s pacman hook to run and auto-sign on a bootloader update. You still need to sign the other required files as per `sbctl`'s docs
 
   ```sh
