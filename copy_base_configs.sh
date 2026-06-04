@@ -11,3 +11,5 @@ sudo cp .config/systemd-boot/entries/arch.conf /boot/loader/entries/arch.conf
 sudo cp .config/systemd-boot/entries/arch-fallback.conf /boot/loader/entries/arch-fallback.conf
 sudo cp .config/systemd-boot/95-systemd-boot.hook /etc/pacman.d/hooks/95-systemd-boot.hook
 echo "Base configuration files copied successfully."
+sudo systemctl enable NetworkManager.service
+sudo systemctl enable NetworkManager-wait-online.service
