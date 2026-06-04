@@ -125,7 +125,7 @@ export LESS_TERMCAP_me="$(tput sgr0 2> /dev/null)"
 # apt stuff is commented out
 alias update="sudo dnf upgrade"
 alias time="date "+%T""
-#alias cat='bat --paging=never'
+alias cat='bat --paging=never'
 alias grep="rg"
 # alias for fuck
 #eval $(thefuck --alias)

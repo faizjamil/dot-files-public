@@ -126,7 +126,8 @@ export LESS_TERMCAP_me="$(tput sgr0 2> /dev/null)"
 alias update="sudo apt update && sudo apt upgrade"
 
 alias time="date "+%T""
-#alias cat='bat --paging=never'
+alias bat="batcat"
+alias cat="batcat --paging=never"
 alias grep="rg"
 # alias for thefuck
 #eval $(thefuck --alias)
