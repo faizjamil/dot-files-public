@@ -64,7 +64,7 @@ then
   PACKAGES_TO_INSTALL+=(firefox vlc steam filezilla qbittorrent konsole mullvad-vpn)
   if [[ $DISTRO = "ubuntu" || $DISTRO = "debian" ]]
   then 
-    PACKAGES_TO_INSTALL+=(code redshift fonts-liberation fonts-atkinson-hyperlegible-next fonts-atkinson-hyperlegible fonts-noto fontconfig)
+    PACKAGES_TO_INSTALL+=(code fonts-liberation fonts-atkinson-hyperlegible-next fonts-atkinson-hyperlegible fonts-noto fontconfig)
     echo "Adding repo for VS Code"
     echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
     echo "VS Code repo added"
@@ -125,7 +125,7 @@ then
   elif [[ $DISTRO = "fedora" ]]
   then
     
-    PACKAGES_TO_INSTALL+=(util-linux-user redshift-gtk liberation-fonts cabextract xorg-x11-font-utils fontconfig google-noto-fonts-all atkinson-hyperlegible-mono-fonts atkinson-hyperlegible-next-fonts)
+    PACKAGES_TO_INSTALL+=(util-linux-user redshift-gtk liberation-fonts cabextract xorg-x11-font-utils fontconfig google-noto-fonts-all atkinson-hyperlegible-mono-fonts atkinson-hyperlegible-next-fonts fonts-croscore)
 
     echo "Enabling the Free and Nonfree RPM Fusion repos"
     sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
