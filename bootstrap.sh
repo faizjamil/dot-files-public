@@ -204,9 +204,6 @@ then
         echo "${PACKAGE} installed"  
     done
     echo "All specified native packages installed"
-    echo "Installing yay (AUR helper)"
-    sudo pacman -S --needed git base-devel && cd /tmp && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
-    echo "yay installed"
     echo "Enabling all needed services"
     # we are enabling lightdm, nftables, and cups (for printing) with its pdf backend
     sudo systemctl enable lightdm.service
@@ -267,8 +264,8 @@ curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh 
 echo "zoxide installed"
 echo "Installing oh-my-zsh and removing .zshrc from home directory"
 # set env vars to prompt to set default shell to zsh and prevent ohmyzsh installer from touching .zshrc
-CHSH=yes
-RUNZSH=no
+export CHSH=yes
+export RUNZSH=no
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --keep-zshrc
 echo "oh-my-zsh installed"
 rm ~/.zshrc
