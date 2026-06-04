@@ -1,6 +1,6 @@
 echo "Copying base configuration files (lightdm, journald, systemd-boot, chrony and systemd-boot hook) to their respective locations..."
 sudo cp .config/journald.conf /etc/systemd/journald.conf
-sudo cp .config/lightdm.conf /etc/lightdm/lightdm.conf
+# sudo cp .config/lightdm.conf /etc/lightdm/lightdm.conf
 sudo cp .config/reflector.conf /etc/xdg/reflector/reflector.conf
 # default chrony location from: https://man.archlinux.org/man/chrony.conf.5#DESCRIPTION
 # chrony config might also be in /etc/chrony/chrony.conf
