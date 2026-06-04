@@ -131,7 +131,8 @@ alias cat="batcat --paging=never"
 alias grep="rg"
 # alias for thefuck
 #eval $(thefuck --alias)
-
+# use bat for man pages
+export MANPAGER="batcat -plman"
 # Additions to PATH
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
