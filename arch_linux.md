@@ -46,16 +46,10 @@ This grabs the 20 most recently synced HTTPS mirrors in the US and CA.
 Per [the script in this repo](base_arch_packages_install.sh)
 
 ```sh
-pacstrap -K /mnt base base-devel git linux-firmware intel-ucode nano man-db man-pages e2fsprogs dosfstools exfatprogs
+pacstrap -K /mnt base base-devel linux linux-firmware intel-ucode micro nano man-db man-pages git curl networkmanager
 ```
 
 [Look up these packages](https://archlinux.org/packages/) if you don't know what they do but they should be self-explanatory
-
-- `dosfstools` is for working with FAT32 partitions
-
-- `e2fsprogs` is for ext4 (also ext2 and ext3 but I don't care about either of those)
-
-- `exfatprogs` is for ExFAT partitions
 
 After installing essential packages, reboot into BIOS and enter Setup Mode to setup secure boot.
 
@@ -69,7 +63,7 @@ Note: `esp` here is a placeholder for the path to the EFI System Parition
 
 1. Run `bootctl install`
 2. Copy [loader.conf](.config/systemd-boot/loader.conf) to `esp/loader`
-3. Get the UUID of arch drive using `blkid` and paste the UUID into both `arch.conf` and `arch-fallback.conf`
+3. Get the UUID of root partition using `blkid` and paste the UUID into `arch.conf`
 4. Copy [arch.conf](.config/systemd-boot/arch.conf) to `esp/loader/entries`
 5. Setup Secure Boot using `sbctl` taking note to execute the following command for signing **the bootloader specifically** to allow for `sbctl`'s pacman hook to run and auto-sign on a bootloader update. You still need to sign the other required files as per `sbctl`'s docs
 
@@ -84,3 +78,4 @@ Note: `esp` here is a placeholder for the path to the EFI System Parition
 - [Enable the `multilib` repo](https://wiki.archlinux.org/title/Official_repositories#multilib) **before** running `bootstrap.sh`
 - Use [arch_create_user.txt](arch_create_user.txt) to create a non-root user, setup sudo access, and disable the root user
 - Start any needed services such as lightdm, networkmanager, etc. (add more later)
+- Enable slick greeter by adding the line `greeter-session=lightdm-slick-greeter` to /etc/lightdm/lightdm.conf
